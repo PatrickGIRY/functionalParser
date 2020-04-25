@@ -10,7 +10,7 @@ public record Input(String line) {
     }
 
     public int head() {
-        return 65;
+        return line.codePointAt(0);
     }
 
     public Input tail() {

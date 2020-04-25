@@ -1,6 +1,8 @@
 package tools.functional.parser;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -18,16 +20,16 @@ public class ItemParserShould {
         assertThat(result).isEmpty();
     }
 
-    @Test
-    public void return_a_singleton_stream_with_result_with_first_character_and_an_empty_input_when_input_contains_one_character() {
+    @ParameterizedTest
+    @ValueSource(strings = {"A", "B"})
+    public void return_a_singleton_stream_with_result_with_first_character_and_an_empty_input_when_input_contains_one_character(String line) {
 
         var itemParser = ItemParser.of();
-        var line = "A";
         var input = new Input(line);
 
         Stream<Result> result = itemParser.parse(input);
 
-        var expectResult = new Result('A', Input.empty());
+        var expectResult = new Result(line.codePointAt(0), Input.empty());
         assertThat(result).containsOnly(expectResult);
     }
 }
