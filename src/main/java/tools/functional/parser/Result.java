@@ -1,4 +1,4 @@
 package tools.functional.parser;
 
-public class Result {
+public record Result(int characterMatched, Input remaining) {
 }

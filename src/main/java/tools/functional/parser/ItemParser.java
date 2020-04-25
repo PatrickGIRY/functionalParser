@@ -10,6 +10,8 @@ public class ItemParser {
     private ItemParser() {}
 
     public Stream<Result> parse(Input input) {
-        return Stream.empty();
+        return input.isEmpty()
+                ? Stream.empty()
+                : Stream.of(new Result(input.head(), input.tail()));
     }
 }
