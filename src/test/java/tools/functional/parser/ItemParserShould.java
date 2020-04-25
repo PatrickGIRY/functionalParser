@@ -29,7 +29,7 @@ public class ItemParserShould {
 
         Stream<Result> result = itemParser.parse(input);
 
-        var expectResult = new Result(line.codePointAt(0), Input.empty());
+        var expectResult = new Result(line.codePointAt(0), new Input(""));
         assertThat(result).containsOnly(expectResult);
     }
 }

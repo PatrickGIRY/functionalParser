@@ -14,6 +14,6 @@ public record Input(String line) {
     }
 
     public Input tail() {
-        return Input.empty();
+        return new Input("");
     }
 }
