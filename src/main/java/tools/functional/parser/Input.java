@@ -14,6 +14,6 @@ public record Input(String line) {
     }
 
     Input tail() {
-        return new Input("");
+        return new Input(line.substring(1));
     }
 }
