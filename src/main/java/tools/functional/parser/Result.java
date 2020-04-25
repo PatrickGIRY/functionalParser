@@ -1,4 +1,4 @@
 package tools.functional.parser;
 
-public class Foo {
+public class Result {
 }
