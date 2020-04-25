@@ -5,15 +5,15 @@ public record Input(String line) {
         return new Input(null);
     }
 
-    public boolean isEmpty() {
-        return null == line;
+    boolean isEmpty() {
+        return null == line || line.isEmpty();
     }
 
-    public int head() {
+    int head() {
         return line.codePointAt(0);
     }
 
-    public Input tail() {
+    Input tail() {
         return new Input("");
     }
 }
