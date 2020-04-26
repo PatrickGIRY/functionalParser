@@ -26,6 +26,7 @@ public class ParserInt {
     }
 
     public Result parse(Input input) {
+        requireNonNull(input);
         return parser.apply(input);
     }
 
