@@ -1,30 +1,38 @@
 package tools.functional.parser;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("ParserInt should")
 public class ParserIntShould {
 
     private static final Input EMPTY_INPUT = new Input("");
 
-    @Test
-    public void return_failure_result_when_the_content_of_the_input_is_null() {
-        var parser = ParserInt.of(input -> ParserInt.Result.failure());
-        var input = new Input(null);
+    @Nested
+    @DisplayName("return failure result")
+    class FailureResult {
 
-        ParserInt.Result result = parser.parse(input);
+        @Test
+        public void when_the_content_of_the_input_is_null() {
+            var parser = ParserInt.of(input -> ParserInt.Result.success('Z', null));
+            var input = new Input("A");
 
-        assertThat(result).isEqualTo(ParserInt.Result.failure());
-    }
+            ParserInt.Result result = parser.parse(input);
 
-    @Test
-    public void return_failure_result_when_the_content_of_the_input_is_empty() {
-        var parser = ParserInt.of(input -> ParserInt.Result.failure());
+            assertThat(result).isEqualTo(ParserInt.Result.failure());
+        }
+        @Test
+        public void when_the_content_of_the_input_is_empty() {
+            var parser = ParserInt.of(input -> ParserInt.Result.failure());
 
-        ParserInt.Result result = parser.parse(EMPTY_INPUT);
+            ParserInt.Result result = parser.parse(EMPTY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.failure());
+            assertThat(result).isEqualTo(ParserInt.Result.failure());
+        }
+
     }
 
     @Test
