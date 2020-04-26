@@ -32,7 +32,7 @@ public class ParserIntShould {
         var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
         var parser = ParserInt.of(input -> parserResult);
 
-        ParserInt.Result result = parser.parse(ANY_INPUT);
+        var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(parserResult);
     }
@@ -41,7 +41,7 @@ public class ParserIntShould {
     public void create_a_parser_that_always_fail() {
         var parser = ParserInt.failure();
 
-        ParserInt.Result result = parser.parse(ANY_INPUT);
+        var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.failure(""));
     }
@@ -50,7 +50,7 @@ public class ParserIntShould {
     public void create_a_parser_that_always_succeed() {
         var parser = ParserInt.valueOf(ANY_VALUE);
 
-        ParserInt.Result result = parser.parse(ANY_INPUT);
+        var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
     }
@@ -59,7 +59,7 @@ public class ParserIntShould {
     public void create_a_parser_that_choice_the_first_one_when_it_succeed() {
         var parser = ParserInt.valueOf(ANY_VALUE).orElse(ParserInt.failure());
 
-        ParserInt.Result result = parser.parse(ANY_INPUT);
+        var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
     }
@@ -68,7 +68,7 @@ public class ParserIntShould {
     public void create_a_parser_that_choice_the_second_one_when_the_first_fail() {
         var parser = ParserInt.failure().orElse(ParserInt.valueOf(ANY_VALUE));
 
-        ParserInt.Result result = parser.parse(ANY_INPUT);
+        var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
     }
