@@ -49,7 +49,11 @@ public class ParserInt {
         }
     }
 
-    private record Success(int matchedValue, Input remainingInput) implements Result { }
+    private record Success(int matchedValue, Input remainingInput) implements Result {
+        public Success {
+            requireNonNull(remainingInput);
+        }
+    }
 
     private record Failure(String errorMessage) implements Result {
         public Failure {
