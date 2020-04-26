@@ -2,8 +2,6 @@ package tools.functional.parser;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Function;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ParserIntShould {
@@ -12,14 +10,14 @@ public class ParserIntShould {
     private static final Input ANY_REMAINING_INPUT = new Input("Any remaining input");
     private static final int ANY_MATCHED_VALUE = 123;
     private static final int ANY_VALUE = 234;
+    private static final String ERROR_MESSAGE = "Error message";
 
     @Test
     public void create_a_failure_result_with_the_given_error_message() {
-        var errorMessage = "Error message";
-        var failure = ParserInt.Result.failure(errorMessage);
+        var failure = ParserInt.Result.failure(ERROR_MESSAGE);
 
         assertThat(failure).isNotNull();
-        assertThat(failure).isEqualTo(ParserInt.Result.failure(errorMessage));
+        assertThat(failure).isEqualTo(ParserInt.Result.failure(ERROR_MESSAGE));
     }
 
     @Test
