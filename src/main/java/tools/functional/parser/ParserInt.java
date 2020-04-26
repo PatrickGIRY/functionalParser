@@ -27,7 +27,7 @@ public class ParserInt {
 
     public Result parse(Input input) {
         requireNonNull(input);
-        return parser.apply(input);
+        return requireNonNull(parser.apply(input));
     }
 
     public ParserInt orElse(ParserInt other) {
