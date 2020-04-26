@@ -31,6 +31,7 @@ public class ParserInt {
     }
 
     public ParserInt orElse(ParserInt other) {
+        requireNonNull(other);
         return of(input -> parse(input).or(() -> other.parse(input)));
     }
 

@@ -91,4 +91,10 @@ public class ParserIntShould {
         assertThatThrownBy(() -> ParserInt.of(input -> null).parse(ANY_INPUT))
                 .isInstanceOf(NullPointerException.class);
     }
+
+    @Test
+    public void throw_NullPointerException_when_other_choice_parser_is_null() {
+        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).orElse(null))
+                .isInstanceOf(NullPointerException.class);
+    }
 }
