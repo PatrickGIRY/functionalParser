@@ -13,12 +13,20 @@ public class ParserInt {
         return of(input -> Result.failure(""));
     }
 
+    public static ParserInt valueOf(int value) {
+        return of(input -> Result.success(value, input));
+    }
+
     private ParserInt(Function<Input, Result> parser) {
         this.parser = parser;
     }
 
     public Result parse(Input input) {
         return parser.apply(input);
+    }
+
+    public ParserInt orElse(ParserInt other) {
+        return of(input -> parse(input));
     }
 
     public interface Result {

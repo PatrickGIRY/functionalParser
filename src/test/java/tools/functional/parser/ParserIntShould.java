@@ -2,6 +2,8 @@ package tools.functional.parser;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ParserIntShould {
@@ -9,6 +11,7 @@ public class ParserIntShould {
     private static final Input ANY_INPUT = new Input("Any input");
     private static final Input ANY_REMAINING_INPUT = new Input("Any remaining input");
     private static final int ANY_MATCHED_VALUE = 123;
+    private static final int ANY_VALUE = 234;
 
     @Test
     public void create_a_failure_result_with_the_given_error_message() {
@@ -43,5 +46,23 @@ public class ParserIntShould {
         ParserInt.Result result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.failure(""));
+    }
+
+    @Test
+    public void create_a_parser_that_always_succeed() {
+        var parser = ParserInt.valueOf(ANY_VALUE);
+
+        ParserInt.Result result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+    }
+
+    @Test
+    public void create_a_parser_that_choice_the_first_one_when_it_succeed() {
+        var parser = ParserInt.valueOf(ANY_VALUE).orElse(ParserInt.failure());
+
+        ParserInt.Result result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
     }
 }
