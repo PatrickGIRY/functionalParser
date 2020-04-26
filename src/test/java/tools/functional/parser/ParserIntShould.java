@@ -6,6 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ParserIntShould {
 
+    private static final Input ANY_INPUT = new Input("Any input");
+    private static final Input ANY_REMAINING_INPUT = new Input("Any remaining input");
+    private static final int ANY_MATCHED_VALUE = 123;
+
     @Test
     public void create_a_failure_result_with_the_given_error_message() {
         var errorMessage = "Error message";
@@ -17,21 +21,17 @@ public class ParserIntShould {
 
     @Test
     public void create_a_success_with_the_matched_value_and_the_remaining_input() {
-        var matchedValue = 123;
-        var remainingInput = new Input("Any remaining input");
-
-        var success = ParserInt.Result.success(matchedValue, remainingInput);
+        var success = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
 
         assertThat(success).isNotNull();
     }
 
     @Test
     public void execute_the_given_parser_function_and_return_its_result_on_parse() {
-        var parserResult = ParserInt.Result.success('A', new Input("Any remaining input"));
+        var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
         var parser = ParserInt.of(input -> parserResult);
-        var input = new Input("A");
 
-        ParserInt.Result result = parser.parse(input);
+        ParserInt.Result result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(parserResult);
     }
@@ -39,12 +39,9 @@ public class ParserIntShould {
     @Test
     public void create_a_parser_that_always_fail() {
         var parser = ParserInt.failure();
-        var input = new Input("Any input");
 
-        ParserInt.Result result = parser.parse(input);
+        ParserInt.Result result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.failure(""));
-
-
     }
 }
