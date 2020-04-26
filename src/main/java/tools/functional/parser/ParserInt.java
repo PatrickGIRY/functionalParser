@@ -22,5 +22,9 @@ public class ParserInt {
         static Result failure() {
             return null;
         }
+
+        static Result success(int matchedCharacter, Input remainingInput) {
+            return null;
+        }
     }
 }
