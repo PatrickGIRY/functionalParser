@@ -18,21 +18,16 @@ public class ParserInt {
     }
 
     public interface Result {
-
         static Result failure(String errorMessage) {
             return new Failure(errorMessage);
         }
 
-        static Result.Success success(int matchedValue, Input remainingInput) {
+        static Result success(int matchedValue, Input remainingInput) {
             return new Success(matchedValue, remainingInput);
         }
-
-        record Success(int matchedValue, Input remainingInput) implements Result {
-        }
-
     }
 
-    private record Failure(String errorMessage) implements Result {
+    private record Success(int matchedValue, Input remainingInput) implements Result { }
 
-    }
+    private record Failure(String errorMessage) implements Result { }
 }

@@ -24,13 +24,11 @@ public class ParserIntShould {
     @Test
     public void create_a_success_with_the_matched_value_and_the_remaining_input() {
         var matchedValue = 123;
-        var remainingInput = EMPTY_INPUT;
+        var remainingInput = new Input("Any remaining input");
 
         var success = ParserInt.Result.success(matchedValue, remainingInput);
 
         assertThat(success).isNotNull();
-        assertThat(success.matchedValue()).isEqualTo(matchedValue);
-        assertThat(success.remainingInput()).isEqualTo(remainingInput);
     }
 
     @Test
