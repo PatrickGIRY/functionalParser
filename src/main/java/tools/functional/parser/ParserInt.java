@@ -1,6 +1,7 @@
 package tools.functional.parser;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ParserInt {
     private final Function<Input, Result> parser;
@@ -26,7 +27,7 @@ public class ParserInt {
     }
 
     public ParserInt orElse(ParserInt other) {
-        return of(input -> parse(input));
+        return of(input -> parse(input).or(() -> other.parse(input)));
     }
 
     public interface Result {
@@ -37,9 +38,18 @@ public class ParserInt {
         static Result success(int matchedValue, Input remainingInput) {
             return new Success(matchedValue, remainingInput);
         }
+
+        default Result or(Supplier<Result> otherResult) {
+            return this;
+        }
     }
 
     private record Success(int matchedValue, Input remainingInput) implements Result { }
 
-    private record Failure(String errorMessage) implements Result { }
+    private record Failure(String errorMessage) implements Result {
+        @Override
+        public Result or(Supplier<Result> otherResult) {
+            return otherResult.get();
+        }
+    }
 }

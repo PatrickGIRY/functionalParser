@@ -65,4 +65,13 @@ public class ParserIntShould {
 
         assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
     }
+
+    @Test
+    public void create_a_parser_that_choice_the_second_one_when_the_first_fail() {
+        var parser = ParserInt.failure().orElse(ParserInt.valueOf(ANY_VALUE));
+
+        ParserInt.Result result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+    }
 }
