@@ -35,4 +35,16 @@ public class ParserIntShould {
 
         assertThat(result).isEqualTo(parserResult);
     }
+
+    @Test
+    public void create_a_parser_that_always_fail() {
+        var parser = ParserInt.failure();
+        var input = new Input("Any input");
+
+        ParserInt.Result result = parser.parse(input);
+
+        assertThat(result).isEqualTo(ParserInt.Result.failure(""));
+
+
+    }
 }

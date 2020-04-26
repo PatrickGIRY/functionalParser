@@ -9,6 +9,10 @@ public class ParserInt {
         return new ParserInt(parser);
     }
 
+    public static ParserInt failure() {
+        return of(input -> Result.failure(""));
+    }
+
     private ParserInt(Function<Input, Result> parser) {
         this.parser = parser;
     }
