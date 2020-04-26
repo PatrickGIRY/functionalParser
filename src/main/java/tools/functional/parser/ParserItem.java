@@ -1,6 +1,6 @@
 package tools.functional.parser;
 
-public class ItemParser {
+public class ParserItem {
 
     private static final String NO_INPUT_ERROR_MESSAGE = "No input";
 
@@ -10,5 +10,5 @@ public class ItemParser {
                 : ParserInt.Result.success(input.head(), input.tail()));
     }
 
-    private ItemParser() { }
+    private ParserItem() { }
 }

@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ItemParserShould {
+public class ParserItemShould {
 
     private static final String NO_INPUT = "No input";
 
@@ -19,9 +19,9 @@ public class ItemParserShould {
     @ParameterizedTest
     @MethodSource("nullOrEmptyInputProvider")
     public void return_empty_when_input_is_empty(Input input) {
-        var itemParser = ItemParser.of();
+        var parser = ParserItem.of();
 
-        var result = itemParser.parse(input);
+        var result = parser.parse(input);
 
         assertThat(result).isEqualTo(ParserInt.Result.failure(NO_INPUT));
     }
@@ -30,10 +30,10 @@ public class ItemParserShould {
     @ValueSource(strings = {"A", "B"})
     public void return_a_singleton_stream_with_result_with_first_character_and_an_empty_input_when_input_contains_one_character(String line) {
 
-        var itemParser = ItemParser.of();
+        var parser = ParserItem.of();
         var input = new Input(line);
 
-        var result = itemParser.parse(input);
+        var result = parser.parse(input);
 
         var expectResult = ParserInt.Result.success(line.codePointAt(0), new Input(""));
         assertThat(result).isEqualTo(expectResult);
@@ -43,10 +43,10 @@ public class ItemParserShould {
     @ValueSource(strings = {"ABC", "HELLO"})
     public void return_a_singleton_stream_with_result_with_first_character_and_input_containing_remaining_characters_when_input_contains_more_than_one_character(String line) {
 
-        var itemParser = ItemParser.of();
+        var parser = ParserItem.of();
         var input = new Input(line);
 
-        var result = itemParser.parse(input);
+        var result = parser.parse(input);
 
         var expectResult = ParserInt.Result.success(line.codePointAt(0), new Input(line.substring(1)));
         assertThat(result).isEqualTo(expectResult);
