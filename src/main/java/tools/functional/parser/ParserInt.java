@@ -3,10 +3,13 @@ package tools.functional.parser;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.util.Objects.requireNonNull;
+
 public class ParserInt {
     private final Function<Input, Result> parser;
 
     public static ParserInt of(Function<Input, ParserInt.Result> parser) {
+        requireNonNull(parser);
         return new ParserInt(parser);
     }
 

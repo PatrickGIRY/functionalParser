@@ -3,6 +3,7 @@ package tools.functional.parser;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ParserIntShould {
 
@@ -71,5 +72,11 @@ public class ParserIntShould {
         var result = parser.parse(ANY_INPUT);
 
         assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+    }
+
+    @Test
+    public void throw_NullPointerException_when_the_given_parser_function_is_null() {
+        assertThatThrownBy(() -> ParserInt.of(null))
+                .isInstanceOf(NullPointerException.class);
     }
 }
