@@ -18,7 +18,7 @@ public class ParserIntShould {
         var failure = ParserInt.Result.failure(errorMessage);
 
         assertThat(failure).isNotNull();
-        assertThat(failure.errorMessage()).isEqualTo(errorMessage);
+        assertThat(failure).isEqualTo(ParserInt.Result.failure(errorMessage));
     }
 
     @Test

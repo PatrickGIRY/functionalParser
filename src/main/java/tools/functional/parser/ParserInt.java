@@ -19,7 +19,7 @@ public class ParserInt {
 
     public interface Result {
 
-        static Result.Failure failure(String errorMessage) {
+        static Result failure(String errorMessage) {
             return new Failure(errorMessage);
         }
 
@@ -27,8 +27,12 @@ public class ParserInt {
             return new Success(matchedValue, remainingInput);
         }
 
-        record Failure(String errorMessage) implements Result { }
+        record Success(int matchedValue, Input remainingInput) implements Result {
+        }
 
-        record Success(int matchedValue, Input remainingInput) implements Result { }
+    }
+
+    private record Failure(String errorMessage) implements Result {
+
     }
 }
