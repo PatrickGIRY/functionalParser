@@ -110,5 +110,11 @@ public class ParserIntShould {
                 .isInstanceOf(NullPointerException.class);
     }
 
+    @Test
+    public void throw_NullPointerException_failure_or_supplier_return_null() {
+        assertThatThrownBy(() -> ParserInt.Result.failure("").or(() -> null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 
 }

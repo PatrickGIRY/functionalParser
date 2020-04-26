@@ -61,7 +61,7 @@ public class ParserInt {
         }
         @Override
         public Result or(Supplier<Result> otherResult) {
-            return otherResult.get();
+            return requireNonNull(otherResult.get());
         }
     }
 }
