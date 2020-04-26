@@ -11,37 +11,22 @@ public class ParserIntShould {
 
     private static final Input EMPTY_INPUT = new Input("");
 
-    @Nested
-    @DisplayName("return failure result")
-    class FailureResult {
+    @Test
+    public void create_a_failure_result_with_the_given_error_message() {
+        var errorMessage = "Error message";
+        var failure = ParserInt.Result.failure(errorMessage);
 
-        @Test
-        public void when_the_content_of_the_input_is_null() {
-            var parser = ParserInt.of(input -> ParserInt.Result.success('Z', null));
-            var input = new Input("A");
-
-            ParserInt.Result result = parser.parse(input);
-
-            assertThat(result).isEqualTo(ParserInt.Result.failure());
-        }
-        @Test
-        public void when_the_content_of_the_input_is_empty() {
-            var parser = ParserInt.of(input -> ParserInt.Result.failure());
-
-            ParserInt.Result result = parser.parse(EMPTY_INPUT);
-
-            assertThat(result).isEqualTo(ParserInt.Result.failure());
-        }
-
+        assertThat(failure.errorMessage()).isEqualTo(errorMessage);
     }
 
     @Test
-    public void return_success_result_with_the_single_character_and_an_empty_input_when_the_content_of_the_input_is_a_single_character() {
-        var parser = ParserInt.of(input -> ParserInt.Result.success('A', EMPTY_INPUT));
+    public void execute_the_given_parser_function_and_return_its_result_on_parse() {
+        var parserResult = ParserInt.Result.success('A', EMPTY_INPUT);
+        var parser = ParserInt.of(input -> parserResult);
         var input = new Input("A");
 
         ParserInt.Result result = parser.parse(input);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success('A', EMPTY_INPUT));
+        assertThat(result).isEqualTo(parserResult);
     }
 }

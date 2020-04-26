@@ -14,17 +14,19 @@ public class ParserInt {
     }
 
     public Result parse(Input input) {
-        return Result.failure();
+        return parser.apply(input);
     }
 
     public interface Result {
 
-        static Result failure() {
-            return null;
+        static Result.Failure failure(String errorMessage) {
+            return new Failure(errorMessage);
         }
 
         static Result success(int matchedCharacter, Input remainingInput) {
             return null;
         }
+
+        record Failure(String errorMessage) implements Result {}
     }
 }
