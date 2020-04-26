@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.map;
 
 @DisplayName("ParserInt should")
 public class ParserIntShould {
@@ -16,7 +17,20 @@ public class ParserIntShould {
         var errorMessage = "Error message";
         var failure = ParserInt.Result.failure(errorMessage);
 
+        assertThat(failure).isNotNull();
         assertThat(failure.errorMessage()).isEqualTo(errorMessage);
+    }
+
+    @Test
+    public void create_a_success_with_the_matched_value_and_the_remaining_input() {
+        var matchedValue = 123;
+        var remainingInput = EMPTY_INPUT;
+
+        var success = ParserInt.Result.success(matchedValue, remainingInput);
+
+        assertThat(success).isNotNull();
+        assertThat(success.matchedValue()).isEqualTo(matchedValue);
+        assertThat(success.remainingInput()).isEqualTo(remainingInput);
     }
 
     @Test

@@ -23,10 +23,12 @@ public class ParserInt {
             return new Failure(errorMessage);
         }
 
-        static Result success(int matchedCharacter, Input remainingInput) {
-            return null;
+        static Result.Success success(int matchedValue, Input remainingInput) {
+            return new Success(matchedValue, remainingInput);
         }
 
-        record Failure(String errorMessage) implements Result {}
+        record Failure(String errorMessage) implements Result { }
+
+        record Success(int matchedValue, Input remainingInput) implements Result { }
     }
 }
