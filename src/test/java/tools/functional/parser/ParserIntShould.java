@@ -9,7 +9,7 @@ public class ParserIntShould {
 
     @Test
     public void return_result_failure_when_input_contains_null() {
-        var parser = ParserInt.of();
+        var parser = ParserInt.of(input -> ParserInt.Result.failure());
         var input = new Input(null);
 
         ParserInt.Result result = parser.parse(input);
