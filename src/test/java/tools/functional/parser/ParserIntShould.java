@@ -9,7 +9,7 @@ public class ParserIntShould {
     private static final Input EMPTY_INPUT = new Input("");
 
     @Test
-    public void return_failure_result_when_input_contains_null() {
+    public void return_failure_result_when_the_content_of_the_input_is_null() {
         var parser = ParserInt.of(input -> ParserInt.Result.failure());
         var input = new Input(null);
 
@@ -19,7 +19,16 @@ public class ParserIntShould {
     }
 
     @Test
-    public void return_success_result_with_the_signle_character_and_an_empty_input_when_there_is_signle_character_as_input() {
+    public void return_failure_result_when_the_content_of_the_input_is_empty() {
+        var parser = ParserInt.of(input -> ParserInt.Result.failure());
+
+        ParserInt.Result result = parser.parse(EMPTY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.failure());
+    }
+
+    @Test
+    public void return_success_result_with_the_single_character_and_an_empty_input_when_the_content_of_the_input_is_a_single_character() {
         var parser = ParserInt.of(input -> ParserInt.Result.success('A', EMPTY_INPUT));
         var input = new Input("A");
 
