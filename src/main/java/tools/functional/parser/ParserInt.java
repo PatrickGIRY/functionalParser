@@ -52,6 +52,9 @@ public class ParserInt {
     private record Success(int matchedValue, Input remainingInput) implements Result { }
 
     private record Failure(String errorMessage) implements Result {
+        public Failure {
+            requireNonNull(errorMessage);
+        }
         @Override
         public Result or(Supplier<Result> otherResult) {
             return otherResult.get();
