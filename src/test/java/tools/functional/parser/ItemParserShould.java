@@ -10,6 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ItemParserShould {
 
+    private static final String NO_INPUT = "No input";
+
     private static Stream<Input> nullOrEmptyInputProvider() {
         return Stream.of(new Input(null), new Input(""));
     }
@@ -19,9 +21,9 @@ public class ItemParserShould {
     public void return_empty_when_input_is_empty(Input input) {
         var itemParser = ItemParser.of();
 
-        Stream<Result> result = itemParser.parse(input);
+        var result = itemParser.parse(input);
 
-        assertThat(result).isEmpty();
+        assertThat(result).isEqualTo(ParserInt.Result.failure(NO_INPUT));
     }
 
     @ParameterizedTest
@@ -31,10 +33,10 @@ public class ItemParserShould {
         var itemParser = ItemParser.of();
         var input = new Input(line);
 
-        Stream<Result> result = itemParser.parse(input);
+        var result = itemParser.parse(input);
 
-        var expectResult = new Result(line.codePointAt(0), new Input(""));
-        assertThat(result).containsOnly(expectResult);
+        var expectResult = ParserInt.Result.success(line.codePointAt(0), new Input(""));
+        assertThat(result).isEqualTo(expectResult);
     }
 
     @ParameterizedTest
@@ -44,9 +46,9 @@ public class ItemParserShould {
         var itemParser = ItemParser.of();
         var input = new Input(line);
 
-        Stream<Result> result = itemParser.parse(input);
+        var result = itemParser.parse(input);
 
-        var expectResult = new Result(line.codePointAt(0), new Input(line.substring(1)));
-        assertThat(result).containsOnly(expectResult);
+        var expectResult = ParserInt.Result.success(line.codePointAt(0), new Input(line.substring(1)));
+        assertThat(result).isEqualTo(expectResult);
     }
 }
