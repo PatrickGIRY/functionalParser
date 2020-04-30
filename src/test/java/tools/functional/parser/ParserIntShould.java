@@ -93,6 +93,15 @@ public class ParserIntShould {
     }
 
     @Test
+    public void create_a_parser_that_satisfy_a_predicate() {
+        var parser = ParserInt.valueOf(19).satisfy(x -> x > 10);
+
+        var result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(19, ANY_INPUT));
+    }
+
+    @Test
     public void throw_NullPointerException_when_the_given_parser_function_is_null() {
         assertThatThrownBy(() -> new ParserInt(null))
                 .isInstanceOf(NullPointerException.class);

@@ -1,9 +1,6 @@
 package tools.functional.parser;
 
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.IntUnaryOperator;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -39,6 +36,10 @@ public record ParserInt(Function<Input, ParserInt.Result> parser) {
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
         return new ParserInt(input -> parse(input).flatMap(mapper));
+    }
+
+    public ParserInt satisfy(IntPredicate predicate) {
+        return flatMap(v -> predicate.test(v) ? valueOf(v) : null);
     }
 
     public interface Result {
