@@ -43,6 +43,7 @@ public class ParserInt {
     }
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
+        requireNonNull(mapper);
         return of(input -> parse(input).flatMap(mapper));
     }
 

@@ -123,6 +123,12 @@ public class ParserIntShould {
     }
 
     @Test
+    public void throw_NullPointerException_when_function_that_return_parser_to_apply_on_parser_result_is_null() {
+        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).flatMap(null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
     public void throw_NullPointerException_failure_error_message_is_null() {
         assertThatThrownBy(() -> ParserInt.Result.failure(null))
                 .isInstanceOf(NullPointerException.class);
