@@ -84,6 +84,15 @@ public class ParserIntShould {
     }
 
     @Test
+    public void apply_a_function_that_return_a_parser_on_parser_result() {
+        var parser = ParserInt.valueOf(42).flatMap(x -> ParserInt.valueOf(69));
+
+        var result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(69, ANY_INPUT));
+    }
+
+    @Test
     public void throw_NullPointerException_when_the_given_parser_function_is_null() {
         assertThatThrownBy(() -> ParserInt.of(null))
                 .isInstanceOf(NullPointerException.class);

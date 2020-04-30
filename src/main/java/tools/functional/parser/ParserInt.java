@@ -1,6 +1,7 @@
 package tools.functional.parser;
 
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 
@@ -41,6 +42,10 @@ public class ParserInt {
         return of(input -> parse(input).map(mapper));
     }
 
+    public ParserInt flatMap(IntFunction<ParserInt> mapper) {
+        return of(input -> parse(input).flatMap(mapper));
+    }
+
     public interface Result {
         static Result failure(String errorMessage) {
             return new Failure(errorMessage);
@@ -55,6 +60,10 @@ public class ParserInt {
         }
 
         default Result map(IntUnaryOperator mapper) { return this; };
+
+        default Result flatMap(IntFunction<ParserInt> mapper) {
+            return this;
+        }
     }
 
     private record Success(int matchedValue, Input remainingInput) implements Result {
@@ -65,6 +74,11 @@ public class ParserInt {
         @Override
         public Result map(IntUnaryOperator mapper) {
             return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
+        }
+
+        @Override
+        public Result flatMap(IntFunction<ParserInt> mapper) {
+            return mapper.apply(matchedValue).parse(remainingInput);
         }
     }
 
