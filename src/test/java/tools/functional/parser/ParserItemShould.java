@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static tools.functional.parser.ParserItem.item;
 
 public class ParserItemShould {
 
@@ -19,7 +20,7 @@ public class ParserItemShould {
     @ParameterizedTest
     @MethodSource("nullOrEmptyInputProvider")
     public void return_a_failure_result_when_input_is_empty(Input input) {
-        var parser = ParserItem.of();
+        var parser = item();
 
         var result = parser.parse(input);
 
@@ -30,7 +31,7 @@ public class ParserItemShould {
     @ValueSource(strings = {"A", "B"})
     public void return_a_success_result_with_first_character_and_an_empty_input_when_input_contains_one_character(String line) {
 
-        var parser = ParserItem.of();
+        var parser = item();
         var input = new Input(line);
 
         var result = parser.parse(input);
@@ -43,7 +44,7 @@ public class ParserItemShould {
     @ValueSource(strings = {"ABC", "HELLO"})
     public void return_a_success_result_with_first_character_and_input_containing_remaining_characters_when_input_contains_more_than_one_character(String line) {
 
-        var parser = ParserItem.of();
+        var parser = item();
         var input = new Input(line);
 
         var result = parser.parse(input);
