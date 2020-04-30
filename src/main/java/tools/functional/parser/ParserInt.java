@@ -1,6 +1,7 @@
 package tools.functional.parser;
 
 import java.util.function.Function;
+import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
@@ -35,6 +36,10 @@ public class ParserInt {
         return of(input -> parse(input).or(() -> other.parse(input)));
     }
 
+    public ParserInt map(IntUnaryOperator mapper) {
+        return of(input -> parse(input).map(mapper));
+    }
+
     public interface Result {
         static Result failure(String errorMessage) {
             return new Failure(errorMessage);
@@ -47,11 +52,18 @@ public class ParserInt {
         default Result or(Supplier<Result> otherResult) {
             return this;
         }
+
+        default Result map(IntUnaryOperator mapper) { return this; };
     }
 
     private record Success(int matchedValue, Input remainingInput) implements Result {
         public Success {
             requireNonNull(remainingInput);
+        }
+
+        @Override
+        public Result map(IntUnaryOperator mapper) {
+            return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
         }
     }
 

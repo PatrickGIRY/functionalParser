@@ -75,6 +75,15 @@ public class ParserIntShould {
     }
 
     @Test
+    public void apply_a_function_on_parser_result() {
+        var parser = ParserInt.valueOf(10).map(v -> v + 10);
+
+        var result = parser.parse(ANY_INPUT);
+
+        assertThat(result).isEqualTo(ParserInt.Result.success(20, ANY_INPUT));
+    }
+
+    @Test
     public void throw_NullPointerException_when_the_given_parser_function_is_null() {
         assertThatThrownBy(() -> ParserInt.of(null))
                 .isInstanceOf(NullPointerException.class);
@@ -115,6 +124,4 @@ public class ParserIntShould {
         assertThatThrownBy(() -> ParserInt.Result.failure("").or(() -> null))
                 .isInstanceOf(NullPointerException.class);
     }
-
-
 }
