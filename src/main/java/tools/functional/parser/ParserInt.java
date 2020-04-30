@@ -86,6 +86,7 @@ public class ParserInt {
         public Failure {
             requireNonNull(errorMessage);
         }
+
         @Override
         public Result or(Supplier<Result> otherResult) {
             return requireNonNull(otherResult.get());
