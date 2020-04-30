@@ -75,7 +75,7 @@ public class ParserIntShould {
     }
 
     @Test
-    public void apply_a_function_on_parser_result() {
+    public void create_a_parser_that_apply_a_function_on_parser_result() {
         var parser = ParserInt.valueOf(10).map(v -> v + 10);
 
         var result = parser.parse(ANY_INPUT);
@@ -84,7 +84,7 @@ public class ParserIntShould {
     }
 
     @Test
-    public void apply_a_function_that_return_a_parser_on_parser_result() {
+    public void create_a_parser_that_apply_a_function_that_return_a_parser_on_parser_result() {
         var parser = ParserInt.valueOf(42).flatMap(x -> ParserInt.valueOf(69));
 
         var result = parser.parse(ANY_INPUT);
