@@ -31,7 +31,7 @@ public class ParserIntShould {
     @Test
     public void execute_the_given_parser_function_and_return_its_result_on_parse() {
         var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
-        var parser = ParserInt.of(input -> parserResult);
+        var parser = new ParserInt(input -> parserResult);
 
         var result = parser.parse(ANY_INPUT);
 
@@ -94,7 +94,7 @@ public class ParserIntShould {
 
     @Test
     public void throw_NullPointerException_when_the_given_parser_function_is_null() {
-        assertThatThrownBy(() -> ParserInt.of(null))
+        assertThatThrownBy(() -> new ParserInt(null))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -106,7 +106,7 @@ public class ParserIntShould {
 
     @Test
     public void throw_NullPointerException_when_the_parser_result_is_null() {
-        assertThatThrownBy(() -> ParserInt.of(input -> null).parse(ANY_INPUT))
+        assertThatThrownBy(() -> new ParserInt(input -> null).parse(ANY_INPUT))
                 .isInstanceOf(NullPointerException.class);
     }
 

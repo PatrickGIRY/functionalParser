@@ -7,24 +7,18 @@ import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
-public class ParserInt {
-    private final Function<Input, Result> parser;
+public record ParserInt(Function<Input, ParserInt.Result> parser) {
 
-    public static ParserInt of(Function<Input, ParserInt.Result> parser) {
+    public ParserInt {
         requireNonNull(parser);
-        return new ParserInt(parser);
     }
 
     public static ParserInt failure() {
-        return of(input -> Result.failure(""));
+        return new ParserInt(input -> Result.failure(""));
     }
 
     public static ParserInt valueOf(int value) {
-        return of(input -> Result.success(value, input));
-    }
-
-    private ParserInt(Function<Input, Result> parser) {
-        this.parser = parser;
+        return new ParserInt(input -> Result.success(value, input));
     }
 
     public Result parse(Input input) {
@@ -34,17 +28,17 @@ public class ParserInt {
 
     public ParserInt orElse(ParserInt other) {
         requireNonNull(other);
-        return of(input -> parse(input).or(() -> other.parse(input)));
+        return new ParserInt(input -> parse(input).or(() -> other.parse(input)));
     }
 
     public ParserInt map(IntUnaryOperator mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).map(mapper));
+        return new ParserInt(input -> parse(input).map(mapper));
     }
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).flatMap(mapper));
+        return new ParserInt(input -> parse(input).flatMap(mapper));
     }
 
     public interface Result {
