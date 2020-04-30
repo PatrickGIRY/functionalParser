@@ -37,6 +37,7 @@ public class ParserInt {
     }
 
     public ParserInt map(IntUnaryOperator mapper) {
+        requireNonNull(mapper);
         return of(input -> parse(input).map(mapper));
     }
 
