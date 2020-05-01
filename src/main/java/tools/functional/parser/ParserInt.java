@@ -1,13 +1,16 @@
 package tools.functional.parser;
 
+import java.util.Objects;
 import java.util.function.*;
 
 import static java.util.Objects.requireNonNull;
 
-public record ParserInt(Function<Input, ParserInt.Result> parser) {
+public class ParserInt {
+    private final Function<Input, Result> parser;
 
-    public ParserInt {
+    public static ParserInt of(Function<Input, ParserInt.Result> parser) {
         requireNonNull(parser);
+        return new ParserInt(parser);
     }
 
     public static ParserInt failure() {
@@ -18,6 +21,10 @@ public record ParserInt(Function<Input, ParserInt.Result> parser) {
         return new ParserInt(input -> Result.success(value, input));
     }
 
+    private ParserInt(Function<Input, Result> parser) {
+        this.parser = parser;
+    }
+
     public Result parse(Input input) {
         requireNonNull(input);
         return requireNonNull(parser.apply(input));
@@ -25,67 +32,119 @@ public record ParserInt(Function<Input, ParserInt.Result> parser) {
 
     public ParserInt orElse(ParserInt other) {
         requireNonNull(other);
-        return new ParserInt(input -> parse(input).or(() -> other.parse(input)));
+        return of(input -> parse(input).or(() -> other.parse(input)));
     }
 
     public ParserInt map(IntUnaryOperator mapper) {
         requireNonNull(mapper);
-        return new ParserInt(input -> parse(input).map(mapper));
+        return of(input -> parse(input).map(mapper));
     }
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return new ParserInt(input -> parse(input).flatMap(mapper));
+        return of(input -> parse(input).flatMap(mapper));
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
         return flatMap(v -> predicate.test(v) ? valueOf(v) : null);
     }
 
-    public interface Result {
-        static Result failure(String errorMessage) {
-            return new Failure(errorMessage);
+    public abstract static class Result {
+        public static Result failure(String errorMessage) {
+            return new Failure(requireNonNull(errorMessage));
         }
 
-        static Result success(int matchedValue, Input remainingInput) {
-            return new Success(matchedValue, remainingInput);
+        public static Result success(int matchedValue, Input remainingInput) {
+            return new Success(matchedValue, requireNonNull(remainingInput));
         }
 
-        default Result or(Supplier<Result> otherResult) {
-            return this;
+        private Result() {
         }
 
-        default Result map(IntUnaryOperator mapper) { return this; };
-
-        default Result flatMap(IntFunction<ParserInt> mapper) {
-            return this;
-        }
-    }
-
-    private record Success(int matchedValue, Input remainingInput) implements Result {
-        public Success {
-            requireNonNull(remainingInput);
-        }
-
-        @Override
-        public Result map(IntUnaryOperator mapper) {
-            return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
-        }
-
-        @Override
-        public Result flatMap(IntFunction<ParserInt> mapper) {
-            return mapper.apply(matchedValue).parse(remainingInput);
-        }
-    }
-
-    private record Failure(String errorMessage) implements Result {
-        public Failure {
-            requireNonNull(errorMessage);
-        }
-
-        @Override
         public Result or(Supplier<Result> otherResult) {
-            return requireNonNull(otherResult.get());
+            return this;
+        }
+
+        public Result map(IntUnaryOperator mapper) {
+            return this;
+        }
+
+        public Result flatMap(IntFunction<ParserInt> mapper) {
+            return this;
+        }
+
+        private static class Success extends Result {
+            private final int matchedValue;
+            private final Input remainingInput;
+
+            private Success(int matchedValue, Input remainingInput) {
+                this.matchedValue = matchedValue;
+                this.remainingInput = remainingInput;
+            }
+
+            @Override
+            public Result map(IntUnaryOperator mapper) {
+                return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
+            }
+
+            @Override
+            public Result flatMap(IntFunction<ParserInt> mapper) {
+                return mapper.apply(matchedValue).parse(remainingInput);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Success success)) return false;
+                return matchedValue == success.matchedValue &&
+                        Objects.equals(remainingInput, success.remainingInput);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(matchedValue, remainingInput);
+            }
+
+            @Override
+            public String toString() {
+                return "Success{" +
+                        "matchedValue=" + matchedValue +
+                        ", remainingInput=" + remainingInput +
+                        '}';
+            }
+        }
+
+        private static class Failure extends Result {
+            private final String errorMessage;
+
+            private Failure(String errorMessage) {
+                this.errorMessage = errorMessage;
+            }
+
+            @Override
+            public Result or(Supplier<Result> otherResult) {
+                return requireNonNull(otherResult.get());
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Failure failure)) return false;
+                return Objects.equals(errorMessage, failure.errorMessage);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(errorMessage);
+            }
+
+            @Override
+            public String toString() {
+                return "Failure{" +
+                        "errorMessage='" + errorMessage + '\'' +
+                        '}';
+            }
         }
     }
+
 }
