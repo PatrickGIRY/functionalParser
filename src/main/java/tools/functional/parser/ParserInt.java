@@ -9,8 +9,7 @@ public class ParserInt {
     private final Function<Input, Result> parser;
 
     public static ParserInt of(Function<Input, ParserInt.Result> parser) {
-        requireNonNull(parser);
-        return new ParserInt(parser);
+        return new ParserInt(requireNonNull(parser));
     }
 
     public static ParserInt failure() {
@@ -26,8 +25,7 @@ public class ParserInt {
     }
 
     public Result parse(Input input) {
-        requireNonNull(input);
-        return requireNonNull(parser.apply(input));
+        return requireNonNull(parser.apply(requireNonNull(input)));
     }
 
     public ParserInt orElse(ParserInt other) {
