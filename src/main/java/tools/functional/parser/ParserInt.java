@@ -40,6 +40,10 @@ public class ParserInt {
         return of(input -> parse(input).map(mapper));
     }
 
+    public <U> Parser<U> mapToObj(IntFunction<U> mapper) {
+        return Parser.of(input -> parse(input).mapToObj(mapper));
+    }
+
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
         return of(input -> parse(input).flatMap(mapper));
@@ -73,6 +77,8 @@ public class ParserInt {
             return this;
         }
 
+        public abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
+
         private static class Success extends Result {
             private final int matchedValue;
             private final Input remainingInput;
@@ -85,6 +91,11 @@ public class ParserInt {
             @Override
             public Result map(IntUnaryOperator mapper) {
                 return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
+            }
+
+            @Override
+            public <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
+                throw new IllegalAccessError("Not Yet Implemented");
             }
 
             @Override
@@ -124,6 +135,11 @@ public class ParserInt {
             @Override
             public Result or(Supplier<Result> otherResult) {
                 return requireNonNull(otherResult.get());
+            }
+
+            @Override
+            public <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
+                throw new IllegalAccessError("Not Yet Implemented");
             }
 
             @Override
