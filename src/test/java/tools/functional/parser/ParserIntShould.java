@@ -140,57 +140,72 @@ public class ParserIntShould {
 
     }
 
-    @Test
-    public void throw_NullPointerException_when_the_given_parser_function_is_null() {
-        assertThatThrownBy(() -> ParserInt.of(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+    @Nested
+    @DisplayName("throw NullPointerException when")
+    public class ThrowNullPointerExceptionWhen {
 
-    @Test
-    public void throw_NullPointerException_when_the_given_input_is_null() {
-        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).parse(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("the given parser function is null")
+        public void the_given_parser_function_is_null() {
+            assertThatThrownBy(() -> ParserInt.of(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_when_the_parser_result_is_null() {
-        assertThatThrownBy(() -> ParserInt.of(input -> null).parse(ANY_INPUT))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("the given input is null")
+        public void the_given_input_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).parse(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_when_other_choice_parser_is_null() {
-        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).orElse(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("the parser result is null")
+        public void the_parser_result_is_null() {
+            assertThatThrownBy(() -> ParserInt.of(input -> null).parse(ANY_INPUT))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_when_function_to_apply_on_parser_result_is_null() {
-        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).map(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("other choice parser is null")
+        public void other_choice_parser_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).orElse(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_when_function_that_return_parser_to_apply_on_parser_result_is_null() {
-        assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).flatMap(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("function to apply on parser result is null")
+        public void function_to_apply_on_parser_result_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).map(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_failure_error_message_is_null() {
-        assertThatThrownBy(() -> ParserInt.Result.failure(null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("function that return parser to apply on parser result is null")
+        public void function_that_return_parser_to_apply_on_parser_result_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).flatMap(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_success_remaining_input_is_null() {
-        assertThatThrownBy(() -> ParserInt.Result.success(ANY_VALUE, null))
-                .isInstanceOf(NullPointerException.class);
-    }
+        @Test
+        @DisplayName("failure error message is null")
+        public void failure_error_message_is_null() {
+            assertThatThrownBy(() -> ParserInt.Result.failure(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
 
-    @Test
-    public void throw_NullPointerException_failure_or_supplier_return_null() {
-        assertThatThrownBy(() -> ParserInt.Result.failure("").or(() -> null))
-                .isInstanceOf(NullPointerException.class);
+        @Test
+        @DisplayName("success remaining input is null")
+        public void success_remaining_input_is_null() {
+            assertThatThrownBy(() -> ParserInt.Result.success(ANY_VALUE, null))
+                    .isInstanceOf(NullPointerException.class);
+        }
+
+        @Test
+        @DisplayName("failure or supplier return null")
+        public void failure_or_supplier_return_null() {
+            assertThatThrownBy(() -> ParserInt.Result.failure("").or(() -> null))
+                    .isInstanceOf(NullPointerException.class);
+        }
+
     }
 }
