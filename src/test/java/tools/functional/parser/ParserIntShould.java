@@ -54,68 +54,80 @@ public class ParserIntShould {
         }
     }
 
+    @Nested
+    @DisplayName("create a parser that")
+    public class CreateAParserThat {
 
-    @Test
-    public void create_a_parser_that_always_fail() {
-        var parser = ParserInt.failure();
+        @Test
+        @DisplayName("always fail")
+        public void always_fail() {
+            var parser = ParserInt.failure();
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.failure(""));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.failure(""));
+        }
 
-    @Test
-    public void create_a_parser_that_always_succeed() {
-        var parser = ParserInt.valueOf(ANY_VALUE);
+        @Test
+        @DisplayName("always succeed")
+        public void always_succeed() {
+            var parser = ParserInt.valueOf(ANY_VALUE);
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+        }
 
-    @Test
-    public void create_a_parser_that_choice_the_first_one_when_it_succeed() {
-        var parser = ParserInt.valueOf(ANY_VALUE).orElse(ParserInt.failure());
+        @Test
+        @DisplayName("choice the first one when it succeed")
+        public void choice_the_first_one_when_it_succeed() {
+            var parser = ParserInt.valueOf(ANY_VALUE).orElse(ParserInt.failure());
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+        }
 
-    @Test
-    public void create_a_parser_that_choice_the_second_one_when_the_first_fail() {
-        var parser = ParserInt.failure().orElse(ParserInt.valueOf(ANY_VALUE));
+        @Test
+        @DisplayName("choice the second one when the first fail")
+        public void choice_the_second_one_when_the_first_fail() {
+            var parser = ParserInt.failure().orElse(ParserInt.valueOf(ANY_VALUE));
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.success(ANY_VALUE, ANY_INPUT));
+        }
 
-    @Test
-    public void create_a_parser_that_apply_a_function_on_parser_result() {
-        var parser = ParserInt.valueOf(10).map(v -> v + 10);
+        @Test
+        @DisplayName("apply a function on parser result")
+        public void apply_a_function_on_parser_result() {
+            var parser = ParserInt.valueOf(10).map(v -> v + 10);
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(20, ANY_INPUT));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.success(20, ANY_INPUT));
+        }
 
-    @Test
-    public void create_a_parser_that_apply_a_function_that_return_a_parser_on_parser_result() {
-        var parser = ParserInt.valueOf(42).flatMap(x -> ParserInt.valueOf(69));
+        @Test
+        @DisplayName("apply a function that return a parser on parser result")
+        public void apply_a_function_that_return_a_parser_on_parser_result() {
+            var parser = ParserInt.valueOf(42).flatMap(x -> ParserInt.valueOf(69));
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(69, ANY_INPUT));
-    }
+            assertThat(result).isEqualTo(ParserInt.Result.success(69, ANY_INPUT));
+        }
 
-    @Test
-    public void create_a_parser_that_satisfy_a_predicate() {
-        var parser = ParserInt.valueOf(19).satisfy(x -> x > 10);
+        @Test
+        @DisplayName("satisfy a predicate")
+        public void satisfy_a_predicate() {
+            var parser = ParserInt.valueOf(19).satisfy(x -> x > 10);
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(ParserInt.Result.success(19, ANY_INPUT));
+            assertThat(result).isEqualTo(ParserInt.Result.success(19, ANY_INPUT));
+        }
+
     }
 
     @Test
