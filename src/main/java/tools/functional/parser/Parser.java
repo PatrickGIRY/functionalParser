@@ -24,6 +24,10 @@ public class Parser<T> {
             return new Result.Success<>(matchedObject, remainingInput);
         }
 
+        public static <T> Result<T> failure(String errorMessage) {
+            return null;
+        }
+
         private static class Success<T> extends Result<T> {
             private final T matchedObject;
             private final Input remainingInput;

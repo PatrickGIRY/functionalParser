@@ -139,7 +139,7 @@ public class ParserInt {
 
             @Override
             public <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
-                throw new IllegalAccessError("Not Yet Implemented");
+                return  Parser.Result.failure(errorMessage);
             }
 
             @Override

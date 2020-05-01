@@ -146,6 +146,15 @@ public class ParserIntShould {
 
             assertThat(result).isEqualTo(Parser.Result.success("10", ANY_INPUT));
         }
+
+        @Test
+        public void map_parser_result_with_failure_as_an_object() {
+            var parser = ParserInt.failure().mapToObj(String::valueOf);
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.failure(""));
+        }
     }
 
     @Nested
