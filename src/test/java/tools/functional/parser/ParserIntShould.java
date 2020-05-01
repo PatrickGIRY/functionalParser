@@ -1,11 +1,13 @@
 package tools.functional.parser;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@DisplayName("Parser of int should")
 public class ParserIntShould {
 
     private static final Input ANY_INPUT = new Input("Any input");
@@ -15,9 +17,11 @@ public class ParserIntShould {
     private static final String ERROR_MESSAGE = "Error message";
 
     @Nested
+    @DisplayName("create a result the represents")
     public class CreateAResultThatRepresents {
 
         @Test
+        @DisplayName("a failure with the given error message")
         public void a_failure_with_the_given_error_message() {
             var failure = ParserInt.Result.failure(ERROR_MESSAGE);
 
@@ -26,6 +30,7 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("a success with the matched value and the remaining input")
         public void a_success_with_the_matched_value_and_the_remaining_input() {
             var success = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
 
@@ -34,8 +39,11 @@ public class ParserIntShould {
     }
 
     @Nested
+    @DisplayName("execute the given parser")
     public class ExecuteTheGivenParser {
+
         @Test
+        @DisplayName("with the given function and return its result on parse")
         public void with_the_given_function_and_return_its_result_on_parse() {
             var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
             var parser = ParserInt.of(input -> parserResult);
@@ -45,6 +53,7 @@ public class ParserIntShould {
             assertThat(result).isEqualTo(parserResult);
         }
     }
+
 
     @Test
     public void create_a_parser_that_always_fail() {
