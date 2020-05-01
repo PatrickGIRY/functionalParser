@@ -128,6 +128,16 @@ public class ParserIntShould {
             assertThat(result).isEqualTo(ParserInt.Result.success(19, ANY_INPUT));
         }
 
+        @Test
+        @DisplayName("not satisfy a predicate")
+        public void not_satisfy_a_predicate() {
+            var parser = ParserInt.valueOf(9).satisfy(x -> x > 10);
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(ParserInt.failure().parse(ANY_INPUT));
+        }
+
     }
 
     @Test
