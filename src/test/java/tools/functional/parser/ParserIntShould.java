@@ -139,7 +139,7 @@ public class ParserIntShould {
         }
 
         @Test
-        public void map_parser_result_as_an_object() {
+        public void map_parser_result_with_success_as_an_object() {
             var parser = ParserInt.valueOf(10).mapToObj(String::valueOf);
 
             var result = parser.parse(ANY_INPUT);
