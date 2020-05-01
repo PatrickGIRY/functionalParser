@@ -39,6 +39,7 @@ public class ParserInt {
     }
 
     public <U> Parser<U> mapToObj(IntFunction<U> mapper) {
+        requireNonNull(mapper);
         return Parser.of(input -> parse(input).mapToObj(mapper));
     }
 

@@ -197,6 +197,13 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("function to map to object on parser result is null")
+        public void function_to_map_to_object_on_parser_result_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).mapToObj(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
+
+        @Test
         @DisplayName("function that return parser to apply on parser result is null")
         public void function_that_return_parser_to_apply_on_parser_result_is_null() {
             assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).flatMap(null))
