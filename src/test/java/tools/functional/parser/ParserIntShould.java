@@ -31,17 +31,19 @@ public class ParserIntShould {
 
             assertThat(success).isNotNull();
         }
-
     }
 
-    @Test
-    public void execute_the_given_parser_function_and_return_its_result_on_parse() {
-        var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
-        var parser = ParserInt.of(input -> parserResult);
+    @Nested
+    public class ExecuteTheGivenParser {
+        @Test
+        public void with_the_given_function_and_return_its_result_on_parse() {
+            var parserResult = ParserInt.Result.success(ANY_MATCHED_VALUE, ANY_REMAINING_INPUT);
+            var parser = ParserInt.of(input -> parserResult);
 
-        var result = parser.parse(ANY_INPUT);
+            var result = parser.parse(ANY_INPUT);
 
-        assertThat(result).isEqualTo(parserResult);
+            assertThat(result).isEqualTo(parserResult);
+        }
     }
 
     @Test
