@@ -204,6 +204,13 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("predicate to map to TEST parser result is null")
+        public void predicate_to_test_parser_result_is_null() {
+            assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).satisfy(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
+
+        @Test
         @DisplayName("function that return parser to apply on parser result is null")
         public void function_that_return_parser_to_apply_on_parser_result_is_null() {
             assertThatThrownBy(() -> ParserInt.valueOf(ANY_VALUE).flatMap(null))

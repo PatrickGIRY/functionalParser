@@ -49,6 +49,7 @@ public class ParserInt {
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
+        requireNonNull(predicate);
         return flatMap(v -> predicate.test(v) ? valueOf(v) : failure());
     }
 
