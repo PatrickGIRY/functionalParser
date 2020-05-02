@@ -13,11 +13,11 @@ public class ParserInt {
     }
 
     public static ParserInt failure() {
-        return new ParserInt(input -> Result.failure(""));
+        return of(input -> Result.failure(""));
     }
 
     public static ParserInt valueOf(int value) {
-        return new ParserInt(input -> Result.success(value, input));
+        return of(input -> Result.success(value, input));
     }
 
     private ParserInt(Function<Input, Result> parser) {
