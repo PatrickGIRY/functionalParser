@@ -71,19 +71,19 @@ public class ParserInt {
         private Result() {
         }
 
-        public Result or(Supplier<Result> otherResult) {
+        Result or(Supplier<Result> otherResult) {
             return this;
         }
 
-        public Result map(IntUnaryOperator mapper) {
+        Result map(IntUnaryOperator mapper) {
             return this;
         }
 
-        public Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
+        Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
             return this;
         }
 
-        public abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
+        abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
 
         private static class Success extends Result {
             private final int matchedValue;
@@ -95,17 +95,17 @@ public class ParserInt {
             }
 
             @Override
-            public Result map(IntUnaryOperator mapper) {
+            Result map(IntUnaryOperator mapper) {
                 return Result.success(mapper.applyAsInt(matchedValue), remainingInput);
             }
 
             @Override
-            public <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
+            <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
                 return Parser.Result.success(mapper.apply(matchedValue), remainingInput);
             }
 
             @Override
-            public Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
+            Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
                 return mapper.apply(matchedValue).parse(remainingInput);
             }
 
@@ -139,13 +139,13 @@ public class ParserInt {
             }
 
             @Override
-            public Result or(Supplier<Result> otherResult) {
+            Result or(Supplier<Result> otherResult) {
                 return requireNonNull(otherResult.get());
             }
 
             @Override
-            public <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
-                return  Parser.Result.failure(errorMessage);
+            <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
+                return Parser.Result.failure(errorMessage);
             }
 
             @Override
