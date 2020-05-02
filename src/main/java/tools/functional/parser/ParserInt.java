@@ -45,7 +45,7 @@ public class ParserInt {
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).applyAndParse(mapper));
+        return of(input -> parse(input).applyMatchedValueAndParseRemainingInput(mapper));
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
@@ -79,7 +79,7 @@ public class ParserInt {
             return this;
         }
 
-        public Result applyAndParse(IntFunction<ParserInt> mapper) {
+        public Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
             return this;
         }
 
@@ -105,7 +105,7 @@ public class ParserInt {
             }
 
             @Override
-            public Result applyAndParse(IntFunction<ParserInt> mapper) {
+            public Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
                 return mapper.apply(matchedValue).parse(remainingInput);
             }
 
