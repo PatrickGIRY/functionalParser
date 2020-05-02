@@ -28,6 +28,8 @@ public class Parser<T> {
             return null;
         }
 
+        public abstract <U> Result<U> applyMatchedObjectAndParseRemainingInput(Function<T, Parser<U>> mapper);
+
         private static class Success<T> extends Result<T> {
             private final T matchedObject;
             private final Input remainingInput;
@@ -36,6 +38,11 @@ public class Parser<T> {
 
                 this.matchedObject = matchedObject;
                 this.remainingInput = remainingInput;
+            }
+
+            @Override
+            public <U> Result<U> applyMatchedObjectAndParseRemainingInput(Function<T, Parser<U>> mapper) {
+                return mapper.apply(matchedObject).parse(remainingInput);
             }
 
             @Override

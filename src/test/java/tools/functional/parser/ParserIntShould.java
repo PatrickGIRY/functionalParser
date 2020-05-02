@@ -4,6 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -154,6 +158,17 @@ public class ParserIntShould {
             var result = parser.parse(ANY_INPUT);
 
             assertThat(result).isEqualTo(Parser.Result.failure(""));
+        }
+
+        @Test
+        public void apply_a_parser_the_return_a_function() {
+            IntFunction<String> function = String::valueOf;
+            var functionParser = Parser.of(input -> Parser.Result.success(function, input));
+            var parser = ParserInt.valueOf(10).apply(functionParser);
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.success("10", ANY_INPUT));
         }
     }
 

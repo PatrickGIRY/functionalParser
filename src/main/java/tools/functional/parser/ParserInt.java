@@ -45,12 +45,18 @@ public class ParserInt {
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).flatMap(mapper));
+        return of(input -> parse(input).applyAndParse(mapper));
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
         requireNonNull(predicate);
         return flatMap(v -> predicate.test(v) ? valueOf(v) : failure());
+    }
+
+    public <U> Parser<U> apply(Parser<IntFunction<U>> parserFunction) {
+
+        return Parser.of(input -> parserFunction.parse(input)
+                .applyMatchedObjectAndParseRemainingInput(this::mapToObj));
     }
 
     public abstract static class Result {
@@ -73,7 +79,7 @@ public class ParserInt {
             return this;
         }
 
-        public Result flatMap(IntFunction<ParserInt> mapper) {
+        public Result applyAndParse(IntFunction<ParserInt> mapper) {
             return this;
         }
 
@@ -99,7 +105,7 @@ public class ParserInt {
             }
 
             @Override
-            public Result flatMap(IntFunction<ParserInt> mapper) {
+            public Result applyAndParse(IntFunction<ParserInt> mapper) {
                 return mapper.apply(matchedValue).parse(remainingInput);
             }
 
