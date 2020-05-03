@@ -161,7 +161,8 @@ public class ParserIntShould {
         }
 
         @Test
-        public void apply_a_parser_the_return_a_function() {
+        @DisplayName("apply a parser that return a function")
+        public void apply_a_parser_that_return_a_function() {
             IntFunction<String> function = String::valueOf;
             var functionParser = Parser.of(input -> Parser.Result.success(function, input));
             var parser = ParserInt.valueOf(10).apply(functionParser);
