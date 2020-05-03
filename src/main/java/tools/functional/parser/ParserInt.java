@@ -54,7 +54,7 @@ public class ParserInt {
     }
 
     public <U> Parser<U> apply(Parser<IntFunction<U>> parserFunction) {
-
+        requireNonNull(parserFunction);
         return Parser.of(input -> parserFunction.parse(input)
                 .applyMatchedObjectAndParseRemainingInput(this::mapToObj));
     }

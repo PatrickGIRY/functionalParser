@@ -254,5 +254,11 @@ public class ParserIntShould {
                     .isInstanceOf(NullPointerException.class);
         }
 
+        @Test
+        @DisplayName("apply with a null parser function as parameter")
+        public void apply_with_a_null_parser_function_as_parameter() {
+            assertThatThrownBy(() -> ParserInt.valueOf(1).apply(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
     }
 }
