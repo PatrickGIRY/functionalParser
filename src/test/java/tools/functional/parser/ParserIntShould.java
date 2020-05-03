@@ -143,6 +143,7 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("map parser result with success as an object")
         public void map_parser_result_with_success_as_an_object() {
             var parser = ParserInt.valueOf(10).mapToObj(String::valueOf);
 
@@ -152,6 +153,7 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("map parser result with failure as an object")
         public void map_parser_result_with_failure_as_an_object() {
             var parser = ParserInt.failure().mapToObj(String::valueOf);
 
