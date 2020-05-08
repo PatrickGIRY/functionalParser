@@ -204,6 +204,16 @@ public class ParserIntShould {
 
             assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
         }
+
+        @Test
+        @DisplayName("not apply a parser some times when it fails")
+        public void not_apply_a_parser_some_times_when_it_fails() {
+            var parser = ParserInt.failure().some();
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.failure(""));
+        }
     }
 
     @Nested
