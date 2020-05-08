@@ -65,13 +65,13 @@ public class ParserInt {
         return some().orElse(Parser.valueOf(List.of()));
     }
 
+    public Parser<List<Integer>> some() {
+        return this.apply(Parser.valueOf(toList()));
+    }
+
     private IntFunction<List<Integer>> toList() {
         List<Integer> collection = new ArrayList<>();
         return v -> { collection.add(v); return collection;};
-    }
-
-    public Parser<List<Integer>> some() {
-        return this.apply(Parser.of(input -> Parser.Result.success(toList(), input)));
     }
 
     public abstract static class Result {
