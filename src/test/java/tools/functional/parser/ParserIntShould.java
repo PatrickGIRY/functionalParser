@@ -186,7 +186,7 @@ public class ParserIntShould {
         }
 
         @Test
-        @DisplayName("apply a parser many times ")
+        @DisplayName("apply a parser many times even when it fails")
         public void apply_a_parser_many_times_even_when_it_fails() {
             var parser = ParserInt.failure().many();
 
