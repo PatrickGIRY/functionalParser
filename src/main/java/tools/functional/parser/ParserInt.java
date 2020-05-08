@@ -70,6 +70,10 @@ public class ParserInt {
         return v -> { collection.add(v); return collection;};
     }
 
+    public Parser<List<Integer>> some() {
+        return this.apply(Parser.of(input -> Parser.Result.success(toList(), input)));
+    }
+
     public abstract static class Result {
         public static Result failure(String errorMessage) {
             return new Failure(requireNonNull(errorMessage));

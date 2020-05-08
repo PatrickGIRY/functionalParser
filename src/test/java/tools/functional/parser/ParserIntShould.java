@@ -184,6 +184,16 @@ public class ParserIntShould {
 
             assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
         }
+
+        @Test
+        @DisplayName("apply a parser some times")
+        public void apply_a_parser_some_times() {
+            var parser = ParserInt.valueOf(9).some();
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
+        }
     }
 
     @Nested
