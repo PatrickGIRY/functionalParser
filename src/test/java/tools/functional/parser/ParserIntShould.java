@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
@@ -172,6 +173,16 @@ public class ParserIntShould {
             var result = parser.parse(ANY_INPUT);
 
             assertThat(result).isEqualTo(Parser.Result.success("10", ANY_INPUT));
+        }
+
+        @Test
+        @DisplayName("apply a parser many times")
+        public void apply_a_parser_many_times() {
+            var parser = ParserInt.valueOf(9).many();
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
         }
     }
 

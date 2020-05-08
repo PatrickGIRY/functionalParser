@@ -1,5 +1,7 @@
 package tools.functional.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.*;
 
@@ -57,6 +59,15 @@ public class ParserInt {
         requireNonNull(parserFunction);
         return Parser.of(input -> parserFunction.parse(input)
                 .applyMatchedObjectAndParseRemainingInput(this::mapToObj));
+    }
+
+    public Parser<List<Integer>> many() {
+        return this.apply(Parser.of(input -> Parser.Result.success(toList(), input)));
+    }
+
+    private IntFunction<List<Integer>> toList() {
+        List<Integer> collection = new ArrayList<>();
+        return v -> { collection.add(v); return collection;};
     }
 
     public abstract static class Result {
