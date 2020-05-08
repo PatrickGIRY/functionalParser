@@ -186,6 +186,16 @@ public class ParserIntShould {
         }
 
         @Test
+        @DisplayName("apply a parser many times ")
+        public void apply_a_parser_many_times_even_when_it_fails() {
+            var parser = ParserInt.failure().many();
+
+            var result = parser.parse(ANY_INPUT);
+
+            assertThat(result).isEqualTo(Parser.Result.success(List.of(), ANY_INPUT));
+        }
+
+        @Test
         @DisplayName("apply a parser some times")
         public void apply_a_parser_some_times() {
             var parser = ParserInt.valueOf(9).some();

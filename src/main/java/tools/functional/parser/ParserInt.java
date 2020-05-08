@@ -62,7 +62,7 @@ public class ParserInt {
     }
 
     public Parser<List<Integer>> many() {
-        return this.apply(Parser.of(input -> Parser.Result.success(toList(), input)));
+        return this.apply(Parser.of(input -> Parser.Result.success(toList(), input))).orElse(Parser.valueOf(List.of()));
     }
 
     private IntFunction<List<Integer>> toList() {
