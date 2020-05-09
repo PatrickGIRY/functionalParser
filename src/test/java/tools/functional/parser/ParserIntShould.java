@@ -7,16 +7,21 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Parser of int should")
 public class ParserIntShould {
 
-    private static final Input ANY_INPUT = new Input("Any input");
+    private static final String ANY_INPUT_LINE = "Any input";
+    private static final int ANY_INPUT_LENGTH = ANY_INPUT_LINE.length();
+    private static final Input ANY_INPUT = new Input(ANY_INPUT_LINE);
     private static final Input ANY_REMAINING_INPUT = new Input("Any remaining input");
+    private static final Input EMPTY_REMAINING_INPUT = new Input("");
     private static final int ANY_MATCHED_VALUE = 123;
     private static final int ANY_VALUE = 234;
     private static final String ERROR_MESSAGE = "Error message";
@@ -178,11 +183,20 @@ public class ParserIntShould {
         @Test
         @DisplayName("apply a parser many times")
         public void apply_a_parser_many_times() {
-            var parser = ParserInt.valueOf(9).many();
+            var matchedValue = 9;
+            var parser = ParserInt.of(input ->
+                    input.isEmpty()
+                            ? ParserInt.Result.failure("")
+                            : ParserInt.Result.success(matchedValue, input.tail()))
+                    .many();
 
             var result = parser.parse(ANY_INPUT);
 
-            assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
+            var expectedMatchedList = IntStream
+                    .range(0, ANY_INPUT_LENGTH)
+                    .mapToObj(i -> matchedValue)
+                    .collect(toUnmodifiableList());
+            assertThat(result).isEqualTo(Parser.Result.success(expectedMatchedList, EMPTY_REMAINING_INPUT));
         }
 
         @Test
@@ -198,11 +212,20 @@ public class ParserIntShould {
         @Test
         @DisplayName("apply a parser some times")
         public void apply_a_parser_some_times() {
-            var parser = ParserInt.valueOf(9).some();
+            var matchedValue = 9;
+            var parser = ParserInt.of(input ->
+                    input.isEmpty()
+                            ? ParserInt.Result.failure("")
+                            : ParserInt.Result.success(matchedValue, input.tail()))
+                    .some();
 
             var result = parser.parse(ANY_INPUT);
 
-            assertThat(result).isEqualTo(Parser.Result.success(List.of(9), ANY_INPUT));
+            var expectedMatchedList = IntStream
+                    .range(0, ANY_INPUT_LENGTH)
+                    .mapToObj(i -> matchedValue)
+                    .collect(toUnmodifiableList());
+            assertThat(result).isEqualTo(Parser.Result.success(expectedMatchedList, EMPTY_REMAINING_INPUT));
         }
 
         @Test

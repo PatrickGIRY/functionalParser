@@ -1,11 +1,13 @@
 package tools.functional.parser;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 public class ParserInt {
     private final Function<Input, Result> parser;
@@ -58,7 +60,7 @@ public class ParserInt {
     public <U> Parser<U> apply(Parser<IntFunction<U>> parserFunction) {
         requireNonNull(parserFunction);
         return Parser.of(input -> parserFunction.parse(input)
-                .applyMatchedObjectAndParseRemainingInput(this::mapToObj));
+                .flatMap((matchedObject, remainingInput) -> mapToObj(matchedObject).parse(remainingInput)));
     }
 
     public Parser<List<Integer>> many() {
@@ -66,12 +68,16 @@ public class ParserInt {
     }
 
     public Parser<List<Integer>> some() {
-        return this.apply(Parser.valueOf(toList()));
+       return Parser.of(input -> parse(input)
+               .flatMap(matchedValue -> remainingInput1 ->
+                       many().parse(remainingInput1)
+                               .flatMap((matchedValues, remainingInput2) ->
+                                       Parser.Result.success(cons(matchedValue, matchedValues),
+                                               remainingInput2))));
     }
 
-    private IntFunction<List<Integer>> toList() {
-        List<Integer> collection = new ArrayList<>();
-        return v -> { collection.add(v); return collection;};
+    private List<Integer> cons(int v, List<Integer> collection) {
+       return Stream.concat(Stream.of(v), collection.stream()).collect(toUnmodifiableList());
     }
 
     public abstract static class Result {
@@ -100,6 +106,8 @@ public class ParserInt {
 
         abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
 
+        abstract <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper);
+
         private static class Success extends Result {
             private final int matchedValue;
             private final Input remainingInput;
@@ -122,6 +130,11 @@ public class ParserInt {
             @Override
             Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
                 return mapper.apply(matchedValue).parse(remainingInput);
+            }
+
+            @Override
+            <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
+                return mapper.apply(matchedValue).apply(remainingInput);
             }
 
             @Override
@@ -160,6 +173,11 @@ public class ParserInt {
 
             @Override
             <U> Parser.Result<U> mapToObj(IntFunction<U> mapper) {
+                return Parser.Result.failure(errorMessage);
+            }
+
+            @Override
+            <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
                 return Parser.Result.failure(errorMessage);
             }
 

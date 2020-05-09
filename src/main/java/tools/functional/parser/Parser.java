@@ -1,7 +1,7 @@
 package tools.functional.parser;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -28,6 +28,16 @@ public class Parser<T> {
         return of(input -> parse(input).or(() -> other.parse(input)));
     }
 
+    public <U> Parser<U> apply(Parser<Function<T, U>> functionParser) {
+        return Parser.of(input -> functionParser.parse(input)
+        .flatMap((matchedObject, remainingInput) -> this.map(matchedObject)
+                .parse(remainingInput)));
+    }
+
+    public <U> Parser<U> map(Function<T, U> mapper) {
+        return Parser.of(input -> parse(input).map(mapper));
+    }
+
     public abstract static class Result<T> {
 
         public static <T> Result<T> success(T matchedObject, Input remainingInput) {
@@ -38,11 +48,13 @@ public class Parser<T> {
             return new Result.Failure<>(errorMessage);
         }
 
-        abstract <U> Result<U> applyMatchedObjectAndParseRemainingInput(Function<T, Parser<U>> mapper);
-
         public Result<T> or(Supplier<Result<T>> supplier) {
             return this;
         }
+
+        public abstract <U> Result<U> flatMap(BiFunction<T, Input, Result<U>> mapper);
+
+        public abstract <U> Result<U> map(Function<T, U> mapper);
 
         private static class Success<T> extends Result<T> {
             private final T matchedObject;
@@ -55,8 +67,13 @@ public class Parser<T> {
             }
 
             @Override
-            <U> Result<U> applyMatchedObjectAndParseRemainingInput(Function<T, Parser<U>> mapper) {
-                return mapper.apply(matchedObject).parse(remainingInput);
+            public <U> Result<U> map(Function<T, U> mapper) {
+                return success(mapper.apply(matchedObject), remainingInput);
+            }
+
+            @Override
+            public <U> Result<U> flatMap(BiFunction<T, Input, Result<U>> mapper) {
+                return mapper.apply(matchedObject, remainingInput);
             }
 
             @Override
@@ -90,13 +107,18 @@ public class Parser<T> {
             }
 
             @Override
-            <U> Result<U> applyMatchedObjectAndParseRemainingInput(Function<T, Parser<U>> mapper) {
-                throw new IllegalAccessError("Not Yet Implemented");
+            public Result<T> or(Supplier<Result<T>> supplier) {
+                return supplier.get();
             }
 
             @Override
-            public Result<T> or(Supplier<Result<T>> supplier) {
-                return supplier.get();
+            public <U> Result<U> map(Function<T, U> mapper) {
+                return failure(errorMessage);
+            }
+
+            @Override
+            public <U> Result<U> flatMap(BiFunction<T, Input, Result<U>> mapper) {
+                return failure(errorMessage);
             }
 
             @Override
