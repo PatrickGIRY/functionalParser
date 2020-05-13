@@ -51,6 +51,10 @@ public class ParserInt {
         return of(input -> parse(input).applyMatchedValueAndParseRemainingInput(mapper));
     }
 
+    public <U> Parser<U> flatMapToObj(IntFunction<Parser<U>> mapper) {
+        return Parser.of(input -> parse(input).flatMap(v -> out -> mapper.apply(v).parse(out)));
+    }
+
     public ParserInt satisfy(IntPredicate predicate) {
         requireNonNull(predicate);
         return flatMap(v -> predicate.test(v) ? valueOf(v) : failure());

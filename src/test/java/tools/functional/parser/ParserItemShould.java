@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static tools.functional.parser.ParserItem.item;
@@ -67,6 +68,19 @@ public class ParserItemShould {
         var result = parser.parse(input);
 
         assertThat(result).isEqualTo(Parser.Result.success(CodePoints.of('1', '2', '3'), new Input("ABC")));
+    }
+
+    @Test
+    public void sequence_application_of_parsers() {
+        var parser = item()
+                .flatMapToObj(x -> item()
+                        .flatMapToObj(y -> item()
+                                .mapToObj(z -> IntStream.of(x, z).mapToObj(Character::toString).collect(joining()))));
+        var input = new Input("abcdef");
+
+        var result = parser.parse(input);
+
+        assertThat(result).isEqualTo(Parser.Result.success("ac", new Input("def")));
     }
 
     private static class CodePoints {
