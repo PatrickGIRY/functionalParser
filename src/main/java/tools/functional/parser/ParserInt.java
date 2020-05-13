@@ -48,7 +48,7 @@ public class ParserInt {
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).applyMatchedValueAndParseRemainingInput(mapper));
+        return of(input -> parse(input).flatMap(matchedValue -> remainingInput -> mapper.apply(matchedValue).parse(remainingInput)));
     }
 
     public <U> Parser<U> flatMapToObj(IntFunction<Parser<U>> mapper) {
@@ -104,11 +104,11 @@ public class ParserInt {
             return this;
         }
 
-        Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
+        abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
+
+        Result flatMap(IntFunction<Function<Input,Result>> mapper) {
             return this;
         }
-
-        abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
 
         abstract <U> Parser.Result<U> flatMapToObj(IntFunction<Function<Input, Parser.Result<U>>> mapper);
 
@@ -132,8 +132,8 @@ public class ParserInt {
             }
 
             @Override
-            Result applyMatchedValueAndParseRemainingInput(IntFunction<ParserInt> mapper) {
-                return mapper.apply(matchedValue).parse(remainingInput);
+            Result flatMap(IntFunction<Function<Input,Result>> mapper) {
+                return mapper.apply(matchedValue).apply(remainingInput);
             }
 
             @Override
