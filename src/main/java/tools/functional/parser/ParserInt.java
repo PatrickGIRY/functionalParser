@@ -53,7 +53,7 @@ public class ParserInt {
 
     public <U> Parser<U> flatMapToObj(IntFunction<Parser<U>> mapper) {
         requireNonNull(mapper);
-        return Parser.of(input -> parse(input).flatMap(v -> out -> mapper.apply(v).parse(out)));
+        return Parser.of(input -> parse(input).flatMapToObj(v -> out -> mapper.apply(v).parse(out)));
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
@@ -73,7 +73,7 @@ public class ParserInt {
 
     public Parser<List<Integer>> some() {
        return Parser.of(input -> parse(input)
-               .flatMap(matchedValue -> remainingInput1 ->
+               .flatMapToObj(matchedValue -> remainingInput1 ->
                        many().parse(remainingInput1)
                                .flatMap((matchedValues, remainingInput2) ->
                                        Parser.Result.success(cons(matchedValue, matchedValues),
@@ -110,7 +110,7 @@ public class ParserInt {
 
         abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
 
-        abstract <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper);
+        abstract <U> Parser.Result<U> flatMapToObj(IntFunction<Function<Input, Parser.Result<U>>> mapper);
 
         private static class Success extends Result {
             private final int matchedValue;
@@ -137,7 +137,7 @@ public class ParserInt {
             }
 
             @Override
-            <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
+            <U> Parser.Result<U> flatMapToObj(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
                 return mapper.apply(matchedValue).apply(remainingInput);
             }
 
@@ -181,7 +181,7 @@ public class ParserInt {
             }
 
             @Override
-            <U> Parser.Result<U> flatMap(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
+            <U> Parser.Result<U> flatMapToObj(IntFunction<Function<Input, Parser.Result<U>>> mapper) {
                 return Parser.Result.failure(errorMessage);
             }
 
