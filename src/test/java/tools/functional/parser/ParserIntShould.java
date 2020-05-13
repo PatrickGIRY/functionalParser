@@ -326,5 +326,12 @@ public class ParserIntShould {
             assertThatThrownBy(() -> ParserInt.valueOf(1).apply(null))
                     .isInstanceOf(NullPointerException.class);
         }
+
+        @Test
+        @DisplayName("apply with aull mapper")
+        public void apply_with_a_null_mapper() {
+            assertThatThrownBy(() -> ParserInt.valueOf(2).flatMapToObj(null))
+                    .isInstanceOf(NullPointerException.class);
+        }
     }
 }
