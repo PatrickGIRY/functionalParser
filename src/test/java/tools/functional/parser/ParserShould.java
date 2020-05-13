@@ -11,6 +11,7 @@ public class ParserShould {
     private static final Input ANY_INPUT = new Input("Any input");
     private static final Input ANY_REMAINING_INPUT = new Input("Any remaining input");
     private static final String ANY_MATCHED_OBJECT = "Any matched object";
+    private static final String ERROR_MESSAGE = "Error message";
 
     @Nested
     @DisplayName("create a result the represents")
@@ -23,6 +24,16 @@ public class ParserShould {
 
             assertThat(success).isNotNull();
         }
+
+        @Test
+        @DisplayName("a failure with the given error message")
+        public void a_failure_with_the_given_error_message() {
+            var failure = Parser.Result.failure(ERROR_MESSAGE);
+
+            assertThat(failure).isNotNull();
+            assertThat(failure).isEqualTo(Parser.Result.failure(ERROR_MESSAGE));
+        }
+
     }
 
     @Nested
