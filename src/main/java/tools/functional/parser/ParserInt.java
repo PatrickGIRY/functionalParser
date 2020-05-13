@@ -3,7 +3,6 @@ package tools.functional.parser;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
