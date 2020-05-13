@@ -48,12 +48,14 @@ public class ParserInt {
 
     public ParserInt flatMap(IntFunction<ParserInt> mapper) {
         requireNonNull(mapper);
-        return of(input -> parse(input).flatMap(matchedValue -> remainingInput -> mapper.apply(matchedValue).parse(remainingInput)));
+        return of(input -> parse(input)
+                .flatMap(matchedValue -> remainingInput -> mapper.apply(matchedValue).parse(remainingInput)));
     }
 
     public <U> Parser<U> flatMapToObj(IntFunction<Parser<U>> mapper) {
         requireNonNull(mapper);
-        return Parser.of(input -> parse(input).flatMapToObj(v -> out -> mapper.apply(v).parse(out)));
+        return Parser.of(input -> parse(input)
+                .flatMapToObj(matchedValue -> remainingInput -> mapper.apply(matchedValue).parse(remainingInput)));
     }
 
     public ParserInt satisfy(IntPredicate predicate) {
@@ -72,16 +74,16 @@ public class ParserInt {
     }
 
     public Parser<List<Integer>> some() {
-       return Parser.of(input -> parse(input)
-               .flatMapToObj(matchedValue -> remainingInput1 ->
-                       many().parse(remainingInput1)
-                               .flatMap((matchedValues, remainingInput2) ->
-                                       Parser.Result.success(cons(matchedValue, matchedValues),
-                                               remainingInput2))));
+        return Parser.of(input -> parse(input)
+                .flatMapToObj(matchedValue -> remainingInput1 ->
+                        many().parse(remainingInput1)
+                                .flatMap((matchedValues, remainingInput2) ->
+                                        Parser.Result.success(cons(matchedValue, matchedValues),
+                                                remainingInput2))));
     }
 
     private List<Integer> cons(int v, List<Integer> collection) {
-       return Stream.concat(Stream.of(v), collection.stream()).collect(toUnmodifiableList());
+        return Stream.concat(Stream.of(v), collection.stream()).collect(toUnmodifiableList());
     }
 
     public abstract static class Result {
@@ -106,7 +108,7 @@ public class ParserInt {
 
         abstract <U> Parser.Result<U> mapToObj(IntFunction<U> mapper);
 
-        Result flatMap(IntFunction<Function<Input,Result>> mapper) {
+        Result flatMap(IntFunction<Function<Input, Result>> mapper) {
             return this;
         }
 
@@ -132,7 +134,7 @@ public class ParserInt {
             }
 
             @Override
-            Result flatMap(IntFunction<Function<Input,Result>> mapper) {
+            Result flatMap(IntFunction<Function<Input, Result>> mapper) {
                 return mapper.apply(matchedValue).apply(remainingInput);
             }
 
