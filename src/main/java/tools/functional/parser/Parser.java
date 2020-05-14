@@ -1,8 +1,10 @@
 package tools.functional.parser;
 
+import java.util.Optional;
+
 @FunctionalInterface
 public interface Parser {
-    Success parse(String input);
+    Optional<Success> parse(String input);
 
     record Success(Tree tree, String remainingInput) {}
 }

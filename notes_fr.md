@@ -31,3 +31,14 @@ public interface Parser {
     record Success(Tree tree, String remainingInput) {}
 }
 ```
+
+Mais l'analyse peut échouer également. Du coup le résultat de l'analyse est optionnel :
+
+```java
+@FunctionalInterface
+public interface Parser {
+    Optional<Success> parse(String input);
+
+    record Success(Tree tree, String remainingInput) {}
+}
+```
