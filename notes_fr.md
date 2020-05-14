@@ -2,7 +2,7 @@
 
 ## Qu'est qu'un analyseur syntaxique ?
 
-> Un analyseur syntaxique transforme une chaîne de caractères en un arbre syntaxique.
+> Un analyseur syntaxique analyse une chaîne de caractères pour produire un arbre syntaxique.
 
 ## Définissons un analyseur syntaxique par une fonction
 
