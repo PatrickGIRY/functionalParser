@@ -23,3 +23,11 @@ Nous voudrions décomposer cet analyseur syntaxique en analyseurs syntaxiques pl
 Ces analyseurs syntaxiques ne consommeront pas toute la chaîne de caractères en entrée.
 Si l'analyse du début de la chaîne de caractères est un succés, alors le résultat obtenu est un arbre et la chaîne restant à analyser. On peut définir celà comme ceci :
 
+```java
+@FunctionalInterface
+public interface Parser {
+    Success parse(String input);
+
+    record Success(Tree tree, String remainingInput) {}
+}
+```

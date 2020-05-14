@@ -2,5 +2,7 @@ package tools.functional.parser;
 
 @FunctionalInterface
 public interface Parser {
-    Tree parse(String input);
+    Success parse(String input);
+
+    record Success(Tree tree, String remainingInput) {}
 }
