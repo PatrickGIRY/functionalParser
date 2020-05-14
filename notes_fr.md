@@ -17,6 +17,9 @@ public interface Parser {
 }
 ```
 
-Cette définition est correcte, mais pas pratique. 
+Cette définition est correcte, mais pas pratique.
 Elle n'est pas composable.
 Nous voudrions décomposer cet analyseur syntaxique en analyseurs syntaxiques plus simples.
+Ces analyseurs syntaxiques ne consommeront pas toute la chaîne de caractères en entrée.
+Si l'analyse du début de la chaîne de caractères est un succés, alors le résultat obtenu est un arbre et la chaîne restant à analyser. On peut définir celà comme ceci :
+
