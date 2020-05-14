@@ -61,13 +61,23 @@ Ce premier analyseur syntaxique `item` échoue si l'entrée est vide, et consomm
 ```java
 @Test
 @DisplayName("fails if the input is empty")
-  public void fails_if_the_input_is_empty() {
-    var parser = Parser.item();
+public void fails_if_the_input_is_empty() {
+  var parser = Parser.item();
 
-    var result = parser.parse("");
+  var result = parser.parse("");
 
-    assertThat(result).isEmpty();
-  }
+  assertThat(result).isEmpty();
+}
+
+@Test
+@DisplayName("consumes the first character of input if it is not empty")
+public void consumes_the_first_character_of_the_input_if_it_is_not_empty() {
+  var parser = Parser.item();
+
+  var result = parser.parse("A");
+
+  assertThat(result).hasValue(new ParserChar.SuccessChar('A', ""));
+}
 ```
 
 > En java les caractères sont définis avec un type primitif `char`.

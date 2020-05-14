@@ -22,5 +22,15 @@ public class ParserShould {
 
             assertThat(result).isEmpty();
         }
+
+        @Test
+        @DisplayName("consumes the first character of input if it is not empty")
+        public void consumes_the_first_character_of_the_input_if_it_is_not_empty() {
+            var parser = Parser.item();
+
+            var result = parser.parse("A");
+
+            assertThat(result).hasValue(new ParserChar.SuccessChar('A', ""));
+        }
     }
 }
