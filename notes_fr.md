@@ -57,3 +57,6 @@ public interface Parser<T> {
 ## Analyseur syntaxique de base
 
 Ce premier analyseur syntaxique `item` échoue si l'entrée est vide, et consomme le premier caractère de l'entrée sinon.
+
+> En java les caractères sont définis avec un type primitif `char`.
+> Les types primitfs ne peuvent pas être définit comme générique. C'est pour cet raison qu'on définit un type `SuccessChar`.
