@@ -97,3 +97,18 @@ public interface ParserChar {
     record SuccessChar(char matchedChar, String remainingInput) {}
 }
 ```
+
+> En java l'entrée peut valoir `null`.
+
+```java
+@Test
+@DisplayName("fails if the input is null")
+public void fails_if_the_input_is_null() {
+  var parser = Parser.item();
+
+  var result = parser.parse(null);
+
+  assertThat(result).isEmpty();
+}
+```
+

@@ -24,6 +24,16 @@ public class ParserCharShould {
         }
 
         @Test
+        @DisplayName("fails if the input is null")
+        public void fails_if_the_input_is_null() {
+            var parser = ParserChar.item();
+
+            var result = parser.parse(null);
+
+            assertThat(result).isEmpty();
+        }
+
+        @Test
         @DisplayName("consumes the first character of input if it is not empty")
         public void consumes_the_first_character_of_the_input_if_it_is_not_empty() {
             var parser = ParserChar.item();
