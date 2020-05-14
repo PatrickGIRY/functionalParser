@@ -53,3 +53,7 @@ public interface Parser<T> {
     record Success<T>(T matchedObject, String remainingInput) {}
 }
 ```
+
+## Analyseur syntaxique de base
+
+Ce premier analyseur syntaxique `item` échoue si l'entrée est vide, et consomme le premier caractère de l'entrée sinon.
