@@ -82,3 +82,18 @@ public void consumes_the_first_character_of_the_input_if_it_is_not_empty() {
 
 > En java les caractères sont définis avec un type primitif `char`.
 > Les types primitfs ne peuvent pas être définit comme générique. C'est pour cet raison qu'on définit les typeq `ParserChar` et `SuccessChar`.
+
+```java
+@FunctionalInterface
+public interface ParserChar {
+    static ParserChar item() {
+        return input -> input.isEmpty()
+                ? Optional.empty()
+                : Optional.of(new SuccessChar(input.charAt(0), input.substring(1)));
+    }
+
+    Optional<SuccessChar> parse(String input);
+
+    record SuccessChar(char matchedChar, String remainingInput) {}
+}
+```
