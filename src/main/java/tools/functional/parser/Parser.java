@@ -3,8 +3,8 @@ package tools.functional.parser;
 import java.util.Optional;
 
 @FunctionalInterface
-public interface Parser {
-    Optional<Success> parse(String input);
+public interface Parser<T> {
+    Optional<Success<T>> parse(String input);
 
-    record Success(Tree tree, String remainingInput) {}
+    record Success<T>(T matchedObject, String remainingInput) {}
 }

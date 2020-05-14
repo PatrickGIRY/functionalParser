@@ -42,3 +42,14 @@ public interface Parser {
     record Success(Tree tree, String remainingInput) {}
 }
 ```
+
+L'analyseur syntaxique ne produit pas forcément un arbre, mais une valeur. Nous devons généraliser la définition :
+
+```java
+@FunctionalInterface
+public interface Parser<T> {
+    Optional<Success<T>> parse(String input);
+
+    record Success<T>(T matchedObject, String remainingInput) {}
+}
+```
