@@ -243,3 +243,14 @@ public interface ParserChar {
     ...
 }
 ```
+
+## TODO
+
+```java
+interface ParserChar {
+  ParserInt mapToInt(IntUniaryOperator mapper)
+  ParserDouble mapToDouble(IntToDoubleFunction mapper)
+  ParserLong mapToLong(IntToLongFunction mapper)
+  <U> Parser<U> mapToObj(IntFunction<? extends U> mapper)
+}
+```
