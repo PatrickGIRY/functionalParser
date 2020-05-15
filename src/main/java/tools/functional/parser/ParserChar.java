@@ -16,7 +16,7 @@ public interface ParserChar {
     }
 
     static ParserChar valueOf(char c) {
-       return input -> Optional.of(new Success(c, input));
+        return input -> Optional.of(new Success(c, input));
     }
 
     Optional<Success> parse(String input);

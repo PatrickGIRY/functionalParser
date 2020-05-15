@@ -211,5 +211,18 @@ public interface ParserChar {
 }
 ```
 
-> Comme nous pouvons le voir `parse(input)` retourne un `Optional<Success>` et nous utilisons la méthode `map` pour éviter de tester si l'`Optional<Success>` est présent et extraire la valeur éventuellement contenue. Ca evite de rompre l'encapsulation inutilement.
+> Comme nous pouvons le voir `parse(input)` retourne un `Optional<Success>` et nous utilisons la méthode `map` pour éviter de tester si l'`Optional<Success>` est présent et extraire la valeur éventuellement contenue. Ca evite de rompre l'encapsulation inutilement. Il vaut mieux éviter de faire comme suit :
+
+```java
+ default ParserChar map(IntUnaryOperator mapper) {
+    return input -> {
+        var result = parse(input);
+        if (result.isPresent()) {
+            var success = result.get();
+            return Optional.of(new Success((char) mapper.applyAsInt(success.matchedChar), success.remainingInput));
+        }
+        return result;
+    };
+}
+```
 
