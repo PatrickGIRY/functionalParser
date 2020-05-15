@@ -126,3 +126,7 @@ public interface ParserChar {
     record SuccessChar(char matchedChar, String remainingInput) {}
 }
 ```
+
+### Analyseur syntaxique `failure`
+
+Cet analyseur échou tout le temps.
