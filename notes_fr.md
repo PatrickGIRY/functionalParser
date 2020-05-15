@@ -130,3 +130,24 @@ public interface ParserChar {
 ### Analyseur syntaxique `failure`
 
 Cet analyseur échou tout le temps.
+
+```java
+@Test
+@DisplayName("always fails")
+public void always_fails() {
+  var parser = ParserChar.failure();
+
+  var result = parser.parse("Any input");
+
+  assertThat(result).isEmpty();
+}
+
+@FunctionalInterface
+public interface ParserChar {
+  ...
+  static ParserChar failure() {
+    return input -> Optional.empty();
+  }
+  ...
+}
+```
