@@ -78,12 +78,14 @@ public void consumes_the_first_character_of_the_input_if_it_is_not_empty() {
 
   var result = parser.parse("A");
 
-  assertThat(result).hasValue(new ParserChar.SuccessChar('A', ""));
+  assertThat(result).isPresent();
+            assertThat(result.map(Success::matchedChar)).hasValue('A');
+            assertThat(result.map(Success::remainingInput)).hasValue("");
 }
 ```
 
 > En java les caractères sont définis avec un type primitif `char`.
-> Les types primitfs ne peuvent pas être définit comme générique. C'est pour cet raison qu'on définit les typeq `ParserChar` et `SuccessChar`.
+> Les types primitfs ne peuvent pas être définit comme générique. C'est pour cette raison que nous définissons les types `ParserChar` et `Success` qui contient une valeur de type `char`.
 
 ```java
 @FunctionalInterface
@@ -164,7 +166,9 @@ public void always_success() {
 
   var result = parser.parse("Any input");
 
-  assertThat(result).hasValue(new ParserChar.Success('A', "Any input"));
+  assertThat(result).isPresent();
+    assertThat(result.map(Success::matchedChar)).hasValue('A');
+    assertThat(result.map(Success::remainingInput)).hasValue("Any input");
 }
 
 @FunctionalInterface
