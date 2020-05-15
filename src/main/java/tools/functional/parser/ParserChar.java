@@ -1,6 +1,7 @@
 package tools.functional.parser;
 
 import java.util.Optional;
+import java.util.function.IntUnaryOperator;
 
 @FunctionalInterface
 public interface ParserChar {
@@ -19,6 +20,10 @@ public interface ParserChar {
     }
 
     Optional<Success> parse(String input);
+
+    default ParserChar map(IntUnaryOperator mapper) {
+        return input -> parse(input).map(success -> new Success((char)mapper.applyAsInt(success.matchedChar), success.remainingInput));
+    }
 
     record Success(char matchedChar, String remainingInput) {}
 }

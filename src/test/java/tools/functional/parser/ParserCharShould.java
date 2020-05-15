@@ -78,4 +78,21 @@ public class ParserCharShould {
             assertThat(result.map(Success::remainingInput)).hasValue("Any input");
         }
     }
+
+    @Nested
+    @DisplayName("in case of map parser")
+    public class MapParser {
+
+        @Test
+        @DisplayName("transform a character into an other character")
+        public void transform_a_character_into_an_other_character() {
+            var parser = ParserChar.valueOf('A').map(Character::toLowerCase);
+
+            var result = parser.parse("Any input");
+
+            assertThat(result).isPresent();
+            assertThat(result.map(Success::matchedChar)).hasValue('a');
+            assertThat(result.map(Success::remainingInput)).hasValue("Any input");
+        }
+    }
 }

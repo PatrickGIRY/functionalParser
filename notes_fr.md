@@ -187,3 +187,16 @@ public interface ParserChar {
 
 Supposons que nous voulions crée un analyser qui transforme le caractère en majuscule du résultat en un caractère minuscule.
 
+```java
+@Test
+@DisplayName("transform a character into an other character")
+public void transform_a_character_into_an_other_character() {
+  var parser = ParserChar.valueOf('A').map(Character::toLowerCase);
+
+  var result = parser.parse("An input");
+
+  assertThat(result).isPresent();
+  assertThat(result.map(Success::matchedChar)).hasValue('a');
+  assertThat(result.map(Success::remainingInput)).hasValue("Any input");
+}
+```
