@@ -228,3 +228,18 @@ public interface ParserChar {
 
 Nous allons enrichir `Success` d'une méthode `map` pour les même raisons.
 
+```java
+public interface ParserChar {
+    ...
+    default ParserChar map(IntUnaryOperator mapper) {
+        return input -> parse(input).map(success -> success.map(mapper));
+    }
+
+    record Success(char matchedChar, String remainingInput) {
+        private Success map(IntUnaryOperator mapper) {
+            return new Success((char)mapper.applyAsInt(matchedChar), remainingInput);
+        }
+    }
+    ...
+}
+```
