@@ -3,8 +3,10 @@ package tools.functional.parser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import tools.functional.parser.ParserChar.Result.Success;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("A parser of character should")
 public class ParserCharShould {
@@ -40,7 +42,9 @@ public class ParserCharShould {
 
             var result = parser.parse("A");
 
-            assertThat(result).hasValue(new ParserChar.SuccessChar('A', ""));
+            assertThat(result).isPresent();
+            assertThat(result.map(Success::matchedChar)).hasValue('A');
+            assertThat(result.map(Success::remainingInput)).hasValue("");
         }
     }
 
@@ -70,7 +74,9 @@ public class ParserCharShould {
 
             var result = parser.parse("Any input");
 
-            assertThat(result).hasValue(new ParserChar.SuccessChar('A', "Any input"));
+            assertThat(result).isPresent();
+            assertThat(result.map(Success::matchedChar)).hasValue('A');
+            assertThat(result.map(Success::remainingInput)).hasValue("Any input");
         }
     }
 }
