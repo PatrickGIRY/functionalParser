@@ -181,7 +181,7 @@ public interface ParserChar {
 }
 ```
 
-## Cominer les analyseurs syntaxiques en séquence
+## Combiner les analyseurs syntaxiques en séquence
 
 ### Transformer le caractère en résultat de l'analyse
 
