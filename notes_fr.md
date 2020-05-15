@@ -56,6 +56,8 @@ public interface Parser<T> {
 
 ## Analyseur syntaxique de base
 
+### Analyseur syntaxique `item`
+
 Ce premier analyseur syntaxique `item` échoue si l'entrée est vide, et consomme le premier caractère de l'entrée sinon.
 
 ```java
