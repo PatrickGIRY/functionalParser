@@ -151,3 +151,7 @@ public interface ParserChar {
   ...
 }
 ```
+
+### Analyseur syntaxique `valueOf`
+
+Cet analyseur est en succés tout le temps.
