@@ -21,11 +21,11 @@ public interface ParserChar {
     Optional<Result.Success> parse(String input);
 
     interface Result {
-        static Optional<Success> success(char matchedChar, String input) {
+        private static Optional<Success> success(char matchedChar, String input) {
             return Optional.of(new Success(matchedChar, input));
         }
 
-        static Optional<Success> failure() {
+        private static Optional<Success> failure() {
             return Optional.empty();
         }
 
