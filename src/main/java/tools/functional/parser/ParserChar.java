@@ -6,29 +6,19 @@ import java.util.Optional;
 public interface ParserChar {
     static ParserChar item() {
         return input -> input == null || input.isEmpty()
-                ? Result.failure()
-                : Result.success(input.charAt(0), input.substring(1));
+                ? Optional.empty()
+                : Optional.of(new Success(input.charAt(0), input.substring(1)));
     }
 
     static ParserChar failure() {
-        return input -> Result.failure();
+        return input -> Optional.empty();
     }
 
     static ParserChar valueOf(char c) {
-       return input -> Result.success(c, input);
+       return input -> Optional.of(new Success(c, input));
     }
 
     Optional<Success> parse(String input);
 
-    interface Result {
-        private static Optional<Success> success(char matchedChar, String input) {
-            return Optional.of(new Success(matchedChar, input));
-        }
-
-        private static Optional<Success> failure() {
-            return Optional.empty();
-        }
-
-    }
     record Success(char matchedChar, String remainingInput) {}
 }
