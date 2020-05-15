@@ -199,4 +199,14 @@ public void transform_a_character_into_an_other_character() {
   assertThat(result.map(Success::matchedChar)).hasValue('a');
   assertThat(result.map(Success::remainingInput)).hasValue("Any input");
 }
+
+@FunctionalInterface
+public interface ParserChar {
+  ...
+  default ParserChar map(IntUnaryOperator mapper) {
+    return input -> parse(input).map(success ->
+      new Success((char)mapper.applyAsInt(success.matchedChar), success.remainingInput));
+  }
+  ...
+}
 ```

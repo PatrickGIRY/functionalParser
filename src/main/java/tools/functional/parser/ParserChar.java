@@ -22,7 +22,8 @@ public interface ParserChar {
     Optional<Success> parse(String input);
 
     default ParserChar map(IntUnaryOperator mapper) {
-        return input -> parse(input).map(success -> new Success((char)mapper.applyAsInt(success.matchedChar), success.remainingInput));
+        return input -> parse(input).map(success ->
+                new Success((char)mapper.applyAsInt(success.matchedChar), success.remainingInput));
     }
 
     record Success(char matchedChar, String remainingInput) {}
