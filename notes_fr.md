@@ -226,3 +226,5 @@ public interface ParserChar {
 }
 ```
 
+Nous allons enrichir `Success` d'une méthode `map` pour les même raisons.
+
