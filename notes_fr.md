@@ -180,3 +180,10 @@ public interface ParserChar {
   ...
 }
 ```
+
+## Cominer les analyseurs syntaxiques en séquence
+
+### Transformer le caractère en résultat de l'analyse
+
+Supposons que nous voulions crée un analyser qui transforme le caractère en majuscule du résultat en un caractère minuscule.
+
