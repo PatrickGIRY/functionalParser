@@ -91,12 +91,12 @@ public interface ParserChar {
     static ParserChar item() {
         return input -> input.isEmpty()
                 ? Optional.empty()
-                : Optional.of(new SuccessChar(input.charAt(0), input.substring(1)));
+                : Optional.of(new Success(input.charAt(0), input.substring(1)));
     }
 
-    Optional<SuccessChar> parse(String input);
+    Optional<Success> parse(String input);
 
-    record SuccessChar(char matchedChar, String remainingInput) {}
+    record Success(char matchedChar, String remainingInput) {}
 }
 ```
 
@@ -118,12 +118,12 @@ public interface ParserChar {
     static ParserChar item() {
         return input -> input == null || input.isEmpty()
                 ? Optional.empty()
-                : Optional.of(new SuccessChar(input.charAt(0), input.substring(1)));
+                : Optional.of(new Success(input.charAt(0), input.substring(1)));
     }
 
-    Optional<SuccessChar> parse(String input);
+    Optional<Success> parse(String input);
 
-    record SuccessChar(char matchedChar, String remainingInput) {}
+    record Success(char matchedChar, String remainingInput) {}
 }
 ```
 
@@ -164,14 +164,14 @@ public void always_success() {
 
   var result = parser.parse("Any input");
 
-  assertThat(result).hasValue(new ParserChar.SuccessChar('A', "Any input"));
+  assertThat(result).hasValue(new ParserChar.Success('A', "Any input"));
 }
 
 @FunctionalInterface
 public interface ParserChar {
   ...
   static ParserChar valueOf(char c) {
-    return input -> Optional.of(new ParserChar.SuccessChar('A', "Any input"));
+    return input -> Optional.of(new ParserChar.Success('A', "Any input"));
   }
   ...
 }
