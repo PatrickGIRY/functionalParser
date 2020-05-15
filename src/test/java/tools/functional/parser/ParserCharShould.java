@@ -58,4 +58,19 @@ public class ParserCharShould {
             assertThat(result).isEmpty();
         }
     }
+
+    @Nested
+    @DisplayName("in case of success parser")
+    public class SuccessParser {
+
+        @Test
+        @DisplayName("always success")
+        public void always_success() {
+            var parser = ParserChar.valueOf('A');
+
+            var result = parser.parse("Any input");
+
+            assertThat(result).hasValue(new ParserChar.SuccessChar('A', "Any input"));
+        }
+    }
 }

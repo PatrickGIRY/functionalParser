@@ -14,6 +14,10 @@ public interface ParserChar {
         return input -> Optional.empty();
     }
 
+    static ParserChar valueOf(char c) {
+       return input -> Optional.of(new SuccessChar(c, input));
+    }
+
     Optional<SuccessChar> parse(String input);
 
     record SuccessChar(char matchedChar, String remainingInput) {}

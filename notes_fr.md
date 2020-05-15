@@ -154,4 +154,17 @@ public interface ParserChar {
 
 ### Analyseur syntaxique `valueOf`
 
-Cet analyseur est en succés tout le temps.
+Cet analyseur est en succés tout le temps. Le caractère fournit et la chaîne de caractères à analyser sont dans le résultat de l'analyse.
+
+```java
+@Test
+@DisplayName("always success")
+public void always_success() {
+  var parser = ParserChar.valueOf('A');
+
+  var result = parser.parse("Any input");
+
+  assertThat(result).hasValue(new ParserChar.SuccessChar('A', "Any input"));
+}
+
+```
