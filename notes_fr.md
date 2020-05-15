@@ -210,3 +210,6 @@ public interface ParserChar {
   ...
 }
 ```
+
+> Comme nous pouvons le voir `parse(input)` retourne un `Optional<Success>` et nous utilisons la méthode `map` pour éviter de tester si l'`Optional<Success>` est présent et extraire la valeur éventuellement contenue. Ca evite de rompre l'encapsulation inutilement.
+
