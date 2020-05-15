@@ -3,10 +3,9 @@ package tools.functional.parser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import tools.functional.parser.ParserChar.Result.Success;
+import tools.functional.parser.ParserChar.Success;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("A parser of character should")
 public class ParserCharShould {

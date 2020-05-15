@@ -18,7 +18,7 @@ public interface ParserChar {
        return input -> Result.success(c, input);
     }
 
-    Optional<Result.Success> parse(String input);
+    Optional<Success> parse(String input);
 
     interface Result {
         private static Optional<Success> success(char matchedChar, String input) {
@@ -29,6 +29,6 @@ public interface ParserChar {
             return Optional.empty();
         }
 
-        record Success(char matchedChar, String remainingInput) {}
     }
+    record Success(char matchedChar, String remainingInput) {}
 }
