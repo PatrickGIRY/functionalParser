@@ -6,12 +6,12 @@ import java.util.Optional;
 public interface ParserChar {
     static ParserChar item() {
         return input -> input == null || input.isEmpty()
-                ? Optional.empty()
+                ? Result.failure()
                 : Result.success(input.charAt(0), input.substring(1));
     }
 
     static ParserChar failure() {
-        return input -> Optional.empty();
+        return input -> Result.failure();
     }
 
     static ParserChar valueOf(char c) {
@@ -23,6 +23,10 @@ public interface ParserChar {
     interface Result {
         static Optional<Success> success(char matchedChar, String input) {
             return Optional.of(new Success(matchedChar, input));
+        }
+
+        static Optional<Success> failure() {
+            return Optional.empty();
         }
 
         record Success(char matchedChar, String remainingInput) {}
