@@ -167,4 +167,12 @@ public void always_success() {
   assertThat(result).hasValue(new ParserChar.SuccessChar('A', "Any input"));
 }
 
+@FunctionalInterface
+public interface ParserChar {
+  ...
+  static ParserChar valueOf(char c) {
+    return input -> Optional.of(new ParserChar.SuccessChar('A', "Any input"));
+  }
+  ...
+}
 ```
