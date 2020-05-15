@@ -193,7 +193,7 @@ Supposons que nous voulions crée un analyser qui transforme le caractère en ma
 public void transform_a_character_into_an_other_character() {
   var parser = ParserChar.valueOf('A').map(Character::toLowerCase);
 
-  var result = parser.parse("An input");
+  var result = parser.parse("Any input");
 
   assertThat(result).isPresent();
   assertThat(result.map(Success::matchedChar)).hasValue('a');
