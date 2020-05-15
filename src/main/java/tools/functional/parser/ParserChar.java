@@ -25,6 +25,6 @@ public interface ParserChar {
             return Optional.of(new Success(matchedChar, input));
         }
 
-        record Success(char matchedChar, String remainingInput) implements Result {}
+        record Success(char matchedChar, String remainingInput) {}
     }
 }
